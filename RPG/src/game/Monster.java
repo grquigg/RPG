@@ -8,15 +8,17 @@ public class Monster {
 	private int health;
 	private int attack;
 	private int level;
+	private int maxHP;
 	private boolean isAlive;
-	private int previousAttack;
+	private int previousHealth;
 	
 	public Monster(int hp, int atk, int lvl) {
 		rn = new Random();
-		health = hp;
-		attack = atk;
+		health = lvl * lvl * hp / 2;
+		attack = lvl * atk;
 		level = lvl;
 		isAlive = true;
+		maxHP = health;
 	}
 	
 	public void attack(Player player) {
@@ -24,8 +26,9 @@ public class Monster {
 	}
 	
 	public void takeDamage(Player player) {
-		previousAttack = (rn.nextInt(player.getAttack()) + 1);
-		health = health - previousAttack;
+		previousHealth = health;
+		//System.out.println(previousHealth);
+		health = health - (rn.nextInt(player.getAttack())+1);
 	}
 	
 	public int getAttack() {
@@ -37,7 +40,7 @@ public class Monster {
 	}
 	
 	public int getPreviousAttack() {
-		return previousAttack;
+		return previousHealth - health;
 	}
 	
 	
@@ -51,5 +54,9 @@ public class Monster {
 	
 	public boolean isAlive() {
 		return isAlive;
+	}
+	
+	public int getMaxHealth() {
+		return maxHP;
 	}
 }

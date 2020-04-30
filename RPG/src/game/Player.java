@@ -5,18 +5,23 @@ import java.util.Random;
 public class Player {
 
 	Random rn;
+	private int baselineHp = 20;
 	private int health;
 	private int attack;
 	private int level;
 	private int maxHP;
-	private int previousAttack;
+	private int previousHealth;
+	private int exp;
+	private int expLim;
 	
 	public Player(int hp, int atk, int lvl) {
 		rn = new Random();
-		health = hp;
-		attack = atk;
 		level = lvl;
+		health = hp * level;
+		attack = atk * level;
 		maxHP = health;
+		expLim = 5 * level;
+		exp = 0;
 	}
 	
 	public void attack(Monster enemy) {
@@ -24,8 +29,8 @@ public class Player {
 	}
 	
 	public void takeDamage(Monster m) {
-		previousAttack = (rn.nextInt(m.getAttack()) + 1);
-		health = health - previousAttack;
+		previousHealth = health;
+		health = health - (rn.nextInt(m.getAttack())+1);
 	}
 	
 	public int getAttack() {
@@ -33,7 +38,7 @@ public class Player {
 	}
 	
 	public int getPreviousAttack() {
-		return previousAttack;
+		return previousHealth - health;
 	}
 	
 	public int getHealth() {
@@ -47,6 +52,29 @@ public class Player {
 	
 	public int getLevel() {
 		return level;
+	}
+	
+	public String incExp(Monster m) {
+		exp += (m.getLevel() * 3);
+		if (exp > expLim) {
+			String val = "Player gained " + Integer.toString(m.getLevel() * 3) + " exp. Level up!";
+			level++;
+			expLim += 5 * level;
+			attack += attack;
+			maxHP += 20;
+			return val;
+		}
+		else {
+			String val = "Player gained " + Integer.toString(m.getLevel() * 3);
+			return val;
+		}
+	}
+	
+	public void restoreHealth() {
+		health = maxHP;
+	}
+	public int getMaxHealth() {
+		return maxHP;
 	}
 	
 }

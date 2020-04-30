@@ -45,9 +45,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.text.DefaultCaret;
 
-import game.Game.GameModes;
-
-
 public class GUI2 extends Frame implements KeyListener {
 	private static final long serialVersionUID = 1L;
 
@@ -81,7 +78,7 @@ public class GUI2 extends Frame implements KeyListener {
 		});
 		player = new Player(20, 5, 1);
 		map = new Map(player);
-		map.populateMap(30);
+		//map.populateMap(30);
 		numMonsters = 30;
 		map.setPlayerPosition();
 		int x = map.getPlayerPosition()[0];

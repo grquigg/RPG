@@ -5,8 +5,6 @@ import java.awt.event.*; // Using AWT's event classes and listener interface
 import javax.swing.*;    // Using Swing's components and containers
 import javax.swing.text.DefaultCaret;
 
-import game.GUI.DrawCanvas;
-import game.GUI.PromptWindow;
 /**
  * Custom Graphics Example: Using key/button to move a line left or right.
  */
@@ -26,16 +24,22 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	JProgressBar hp;
 	JProgressBar monsters;
 	JButton reset;
-	int controlNum = 100;
+	int controlNum = 31;
 	int totalM;
 	int numSquares;
+	JLabel levelPlayer;
+	JLabel exp;
+	int monsterlevel = 0;
+	int startLevelPlayer = 1;
+	int startSize = controlNum;
+	int initialControlNum = controlNum;
  
    // Constructor to set up the GUI components and event handlers
    public Graph() {
 
-	   player = new Player(20, 5, 1);
+	   player = new Player(20, 5, 9);
 	   map = new Map(player);
-	   map.populateMap(controlNum);
+	   map.populateMap(controlNum, 9);
 	   numMonsters = controlNum;
 	   totalM = numMonsters;
 	   numSquares = 0;
@@ -66,6 +70,10 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   monsters.setStringPainted(true);
 	   monsters.setString(Integer.toString(numMonsters) + "/" + Integer.toString(totalM));
 	   btnPanel.add(monsters);
+	   
+	   levelPlayer = new JLabel("");
+	   levelPlayer.setText("Level " + Integer.toString(player.getLevel()));
+	   btnPanel.add(levelPlayer);
 	   // Set up a custom drawing JPanel
 	   canvas = new DrawCanvas();
 	   canvas.setPreferredSize(new Dimension(width, height));
@@ -92,7 +100,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 			if (r == 0) { //if column and row are both zero
 				for (int i = 0; i < 2; i++) {
 					for (int j = 0; j < 2; j++) {
-						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=1;
+						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
 					}
 				}
 				return count;
@@ -100,7 +108,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 			else if (r == 12) {
 				for (int i = 0; i < 2; i++) {
 					for (int j = r-1; j <= r; j++) {
-						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=1;
+						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
 					}
 				}
 				return count;
@@ -108,7 +116,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 			else {
 				for (int i = r-1; i <=r+1; i++) {
 					for (int j = 0; j < 2; j++) {
-						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=1;
+						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
 					}
 				}
 				return count;
@@ -118,7 +126,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 			if (r == 0) { //if column and row are both zero
 				for (int i = 0; i < 2; i++) {
 					for (int j = 11; j <= 12; j++) {
-						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=1;
+						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
 					}
 				}
 				return count;
@@ -126,7 +134,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 			else if (r == 12) {
 				for (int i = c-1; i <= c; i++) {
 					for (int j = r-1; j <= r; j++) {
-						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=1;
+						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
 					}
 				}
 				return count;
@@ -134,7 +142,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 			else {
 				for (int i = r-1; i <=r+1; i++) {
 					for (int j = 11; j <= 12; j++) {
-						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=1;
+						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
 					}
 				}
 				return count;
@@ -144,14 +152,14 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 			if (c == 0) {
 				for (int i = 0; i < 2; i++) {
 					for (int j = 0; j < 2; j++) {
-						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=1;
+						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
 					}
 				}
 				return count;
 			} else if (c == 12) {
 				for (int i = 0; i < 2; i++) {
 					for (int j = 11; j <= 12; j++) {
-						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=1;
+						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
 					}
 				}
 				return count;
@@ -159,7 +167,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 			else {
 				for (int i = 0; i < 2; i++) {
 					for (int j = c-1; j <= c+1; j++) {
-						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=1;
+						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
 					}
 				}
 				return count;
@@ -168,14 +176,14 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 			if (c == 0) {
 				for (int i = 0; i < 2; i++) {
 					for (int j = r-1; j <= r; j++) {
-						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=1;
+						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
 					}
 				}
 				return count;
 			} else if (c == 12) {
 				for (int i = c-1; i <= c; i++) {
 					for (int j = r-1; j <= r; j++) {
-						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=1;
+						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
 					}
 				}
 				return count;
@@ -184,7 +192,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 				//System.out.println("This should print here");
 				for (int i = r-1; i <=r; i++) {
 					for (int j = c-1; j <= c+1; j++) {
-						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=1;
+						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
 					}
 				}
 				return count;
@@ -192,7 +200,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 		} else {
 			for (int i = r-1; i <= r+1; i++) {
 				for (int j = c-1; j <= c+1; j++) {
-					if(map.getMapTileAt(j, i).hasEnemyHere()) count+=1;
+					if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
 				}
 			}
 			return count;
@@ -288,17 +296,35 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 					g.setColor(Color.red);
 					g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
 				}
-				if (169 - numSquares <= 40) {
-					//g.setColor(Color.green);
-					//g.fillRect(getTopLeftX(c), getTopLeftY(r), w, h);
+				if (numSquares >= 169) {
+					g.setColor(Color.green);
+					g.fillRect(getTopLeftX(c), getTopLeftY(r), w, h);
 				}
 			}
 		}
-		if (169 - numSquares <= numMonsters) {
+		if (numSquares >= 169) {
 			g.setColor(Color.black);
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
 			g.drawString("Congrats! You won!", getCenterX(5), getCenterY(5));
 		}
+		if (numSquares >= 169) {
+			goToNextLevel();
+		}
+  	}
+  	
+  	public void goToNextLevel() {
+  		try {
+  			Thread.sleep(2000);
+  			controlNum++;
+  			monsterlevel += 10;
+  			System.out.println("Player stats");
+  			System.out.println(player.getLevel());
+  			System.out.println(player.getMaxHealth());
+  			initializeGame(player.getLevel(), monsterlevel, controlNum);
+  		}
+  		catch(Exception e){
+  			e.printStackTrace();
+  		};
   	}
     
 	/**
@@ -377,7 +403,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
            inputpanel.setLayout(new FlowLayout());
            fight = new JButton("Attack!");
            button = new JButton("Run");
-           String currentHp = Integer.toString(player.getHealth()) + "/20";
+           String currentHp = Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth());
            playerHp = new JLabel(currentHp);
            monsterHp = new JLabel();
            fight.addActionListener(this);
@@ -385,14 +411,15 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
            monsterHp.setVisible(false);
            button.addActionListener(this);
            if (tile.isTreasureHere()) {
-           	textArea.append("Congrats! You found treasure!\n");
+           		textArea.append("Congrats! You found treasure! Health fully restored \n");
+           		player.restoreHealth();
            }
            if (tile.hasEnemyHere()) {
            	textArea.append("Found an enemy here! Prepare to fight!\n");
            	mp = tile.getEnemy();
            	fight.setVisible(true);
            	monsterHp.setVisible(true);
-           	String text = Integer.toString(mp.getHealth()) + "/10";
+           	String text = Integer.toString(mp.getHealth()) + "/" + Integer.toString(mp.getMaxHealth());
            	monsterHp.setText(text);
            	
            } else {
@@ -420,22 +447,23 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 			if (e.getSource() == fight) {
 				textArea.append("Fight!\n");
 				player.attack(mp);
-				textArea.append("Monster has taken " + Integer.toString(player.getPreviousAttack()) + " damage!\n");
-           	String text = Integer.toString(mp.getHealth()) + "/10";
-           	monsterHp.setText(text);
-           	mp.attack(player);
-           	textArea.append("Player has taken " + Integer.toString(mp.getPreviousAttack()) + " damage!\n");
-               String currentHp = Integer.toString(player.getHealth()) + "/20";
-               playerHp.setText(currentHp);
-               if(mp.getHealth() <= 0) {
-               	textArea.append("Congrats! You won the fight!\n");
-               	mp.isDead();
-               	numMonsters--;
-               }
-               if(player.getHealth() <= 0) {
-               	textArea.append("Game Over! You're dead!\n");
-               	setBackground(Color.RED);
-               }
+				textArea.append("Monster has taken " + Integer.toString(mp.getPreviousAttack()) + " damage!\n");
+				String text = Integer.toString(mp.getHealth()) + "/" + Integer.toString(mp.getMaxHealth());
+				monsterHp.setText(text);
+				mp.attack(player);
+				textArea.append("Player has taken " + Integer.toString(player.getPreviousAttack()) + " damage!\n");
+				String currentHp = Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth());
+				playerHp.setText(currentHp);
+				if(mp.getHealth() <= 0) {
+					textArea.append("Congrats! You won the fight!\n");
+					textArea.append(player.incExp(mp) + "\n");
+					mp.isDead();
+					numMonsters--;
+				}
+				if(player.getHealth() <= 0) {
+					textArea.append("Game Over! You're dead!\n");
+					setBackground(Color.RED);
+				}
            	
 			}
 			else if (e.getSource() == button) {
@@ -444,7 +472,9 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 				}
 				else {
 					dispose();
-					hp.setString(Integer.toString(player.getHealth()) + "/20");
+					levelPlayer.setText("Level " + Integer.toString(player.getLevel()));
+					hp.setMaximum(player.getMaxHealth());
+					hp.setString(Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth()));
 					hp.setValue(player.getHealth());
 					monsters.setString(Integer.toString(numMonsters) + "/" + Integer.toString(totalM));
 					monsters.setValue(numMonsters);
@@ -514,16 +544,17 @@ public void keyReleased(KeyEvent e) {
 @Override
 public void actionPerformed(ActionEvent e) {
 	if (e.getSource() == reset) {
-		initializeGame();
+		initializeGame(startLevelPlayer, 0, initialControlNum);
 	}
 	
 }
 
-private void initializeGame() {
-	player = new Player(20, 5, 1);
+private void initializeGame(int playerLevel, int monsterLevel, int difficulty) {
+	System.out.println("This code should run");
+	player = new Player(20, 5, playerLevel);
 	map = new Map(player);
-	map.populateMap(controlNum);
-	numMonsters = controlNum;
+	map.populateMap(difficulty, monsterLevel);
+	numMonsters = difficulty;
 	totalM = numMonsters;
 	map.setPlayerPosition();
 	int x = map.getPlayerPosition()[0];
@@ -531,6 +562,12 @@ private void initializeGame() {
 	Point p = new Point(x, y);
 	selectedSquare = p;
 	numSquares = 0;
+	levelPlayer.setText("Level " + Integer.toString(player.getLevel()));
+	hp.setMaximum(player.getMaxHealth());
+	hp.setString(Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth()));
+	hp.setValue(player.getHealth());
+	monsters.setString(Integer.toString(numMonsters) + "/" + Integer.toString(totalM));
+	monsters.setValue(numMonsters);
 	canvas.repaint();
 	requestFocus();
 }
