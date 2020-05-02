@@ -24,7 +24,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	JProgressBar hp;
 	JProgressBar monsters;
 	JButton reset;
-	int controlNum = 31;
+	int controlNum = 32;
 	int totalM;
 	int numSquares;
 	JLabel levelPlayer;
@@ -37,9 +37,9 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
    // Constructor to set up the GUI components and event handlers
    public Graph() {
 
-	   player = new Player(20, 5, 9);
+	   player = new Player(20, 5, 41);
 	   map = new Map(player);
-	   map.populateMap(controlNum, 9);
+	   map.populateMap(controlNum, 27);
 	   numMonsters = controlNum;
 	   totalM = numMonsters;
 	   numSquares = 0;
@@ -316,7 +316,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
   		try {
   			Thread.sleep(2000);
   			controlNum++;
-  			monsterlevel += 10;
+  			monsterlevel += 9;
   			System.out.println("Player stats");
   			System.out.println(player.getLevel());
   			System.out.println(player.getMaxHealth());
