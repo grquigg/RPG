@@ -32,10 +32,9 @@ public class Map {
 			int enA = rn.nextInt(12);
 			int enB = rn.nextInt(12);
 			if (array[enA][enB].getEnemy() == null) {
-				array[enA][enB].setEnemy(new Monster(8, 1, (numArray[i]) + bias));
+				array[enA][enB].setEnemy(new Monster(6, 1, (numArray[i]) + bias));
 			}
-			if (i % 10 == 0) {
-				System.out.println("This code should not run very often");
+			if (i % 5 == 0) {
 				int tA = rn.nextInt(12);
 				int tB = rn.nextInt(12);
 				if (!array[tA][tB].isTreasureHere()) {

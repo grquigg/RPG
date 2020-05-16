@@ -14,7 +14,7 @@ public class Monster {
 	
 	public Monster(int hp, int atk, int lvl) {
 		rn = new Random();
-		health = lvl * lvl * hp / 2;
+		health = (int) (lvl * lvl * hp * 0.5);
 		attack = lvl * atk;
 		level = lvl;
 		isAlive = true;

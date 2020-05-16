@@ -24,22 +24,26 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	JProgressBar hp;
 	JProgressBar monsters;
 	JButton reset;
-	int controlNum = 32;
+	JButton startLevelOver;
+	int controlNum = 34;
 	int totalM;
 	int numSquares;
 	JLabel levelPlayer;
 	JLabel exp;
-	int monsterlevel = 0;
-	int startLevelPlayer = 1;
+	int monsterlevel = 37;
+	int startLevelPlayer = 46;
 	int startSize = controlNum;
 	int initialControlNum = controlNum;
+	int initialMonsterLevel = monsterlevel;
+	int initialLevelStart = startLevelPlayer;
+	int initialMonsterStart = monsterlevel;
  
    // Constructor to set up the GUI components and event handlers
    public Graph() {
 
-	   player = new Player(20, 5, 41);
+	   player = new Player(20, 5, startLevelPlayer);
 	   map = new Map(player);
-	   map.populateMap(controlNum, 27);
+	   map.populateMap(controlNum, monsterlevel);
 	   numMonsters = controlNum;
 	   totalM = numMonsters;
 	   numSquares = 0;
@@ -74,6 +78,10 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   levelPlayer = new JLabel("");
 	   levelPlayer.setText("Level " + Integer.toString(player.getLevel()));
 	   btnPanel.add(levelPlayer);
+	   
+	   startLevelOver = new JButton("Reset Level");
+	   startLevelOver.addActionListener(this);
+	   btnPanel.add(startLevelOver);
 	   // Set up a custom drawing JPanel
 	   canvas = new DrawCanvas();
 	   canvas.setPreferredSize(new Dimension(width, height));
@@ -320,6 +328,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
   			System.out.println("Player stats");
   			System.out.println(player.getLevel());
   			System.out.println(player.getMaxHealth());
+  			initialLevelStart = player.getLevel();
+  			initialMonsterStart = monsterlevel;
   			initializeGame(player.getLevel(), monsterlevel, controlNum);
   		}
   		catch(Exception e){
@@ -454,7 +464,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 				textArea.append("Player has taken " + Integer.toString(player.getPreviousAttack()) + " damage!\n");
 				String currentHp = Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth());
 				playerHp.setText(currentHp);
-				if(mp.getHealth() <= 0) {
+				if(mp.getHealth() <= 0 && mp.isAlive()) {
 					textArea.append("Congrats! You won the fight!\n");
 					textArea.append(player.incExp(mp) + "\n");
 					mp.isDead();
@@ -544,7 +554,10 @@ public void keyReleased(KeyEvent e) {
 @Override
 public void actionPerformed(ActionEvent e) {
 	if (e.getSource() == reset) {
-		initializeGame(startLevelPlayer, 0, initialControlNum);
+		initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum);
+	}
+	else if (e.getSource() == startLevelOver) {
+		initializeGame(initialLevelStart, initialMonsterStart, controlNum);
 	}
 	
 }
