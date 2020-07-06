@@ -18,25 +18,32 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	public int h = 50;
 	public int w = 50;
 	private int offX = 50;
-	private int offY = 50;
+	private int offY = 30;
 	private Point selectedSquare;
 	private DrawCanvas canvas;
 	JProgressBar hp;
 	JProgressBar monsters;
 	JButton reset;
 	JButton startLevelOver;
-	int controlNum = 34;
+	JButton prevLev;
+	JButton saveGame;
+	JButton loadGame;
+	SaveFileWriter fs;
+	int controlNum = 30;
 	int totalM;
 	int numSquares;
 	JLabel levelPlayer;
 	JLabel exp;
-	int monsterlevel = 37;
-	int startLevelPlayer = 46;
+	int numDeaths = 0;
+	int monsterlevel = 0;
+	int initialPlayerXP = 0;
+	int startLevelPlayer = 1;
 	int startSize = controlNum;
 	int initialControlNum = controlNum;
 	int initialMonsterLevel = monsterlevel;
 	int initialLevelStart = startLevelPlayer;
 	int initialMonsterStart = monsterlevel;
+	int baseExpForLevel;
  
    // Constructor to set up the GUI components and event handlers
    public Graph() {
@@ -48,6 +55,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   totalM = numMonsters;
 	   numSquares = 0;
 	   map.setPlayerPosition();
+	   baseExpForLevel = 0;
 	   int x = map.getPlayerPosition()[0];
 	   int y = map.getPlayerPosition()[1];
 	   Point p = new Point(x, y);
@@ -56,7 +64,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   JPanel btnPanel = new JPanel(new FlowLayout());
 	   reset = new JButton("New Game");
 	   reset.addActionListener(this);
-	   btnPanel.add(reset);
+	   //btnPanel.add(reset);
 	   hp = new JProgressBar(0, 20);
 	   hp.setValue(20);
 	   hp.setStringPainted(true);
@@ -81,25 +89,54 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   
 	   startLevelOver = new JButton("Reset Level");
 	   startLevelOver.addActionListener(this);
-	   btnPanel.add(startLevelOver);
+	   //btnPanel.add(startLevelOver);
 	   // Set up a custom drawing JPanel
 	   canvas = new DrawCanvas();
 	   canvas.setPreferredSize(new Dimension(width, height));
 	   addKeyListener(this);
 	   // Add both panels to this JFrame's content-pane
+	   
+	   saveGame = new JButton("Save Game");
+	   loadGame = new JButton("Load Game");
+	   saveGame.addActionListener(this);
+	   loadGame.addActionListener(this);
+	   JPanel topPanel = new JPanel(new FlowLayout());
+	   prevLev = new JButton("Previous Level");
+	   prevLev.addActionListener(this);
+	   topPanel.add(saveGame);
+	   topPanel.add(loadGame);
+	   topPanel.add(reset);
+	   topPanel.add(prevLev);
+	   topPanel.add(startLevelOver);
+	   System.out.println("Top Panel height is " + topPanel.getHeight());
 	   Container cp = getContentPane();
 	   cp.setLayout(new BorderLayout());
 	   cp.add(canvas, BorderLayout.CENTER);
 	   cp.add(btnPanel, BorderLayout.SOUTH);
+	   cp.add(topPanel, BorderLayout.BEFORE_FIRST_LINE);
 	   //setPreferredSize(new Dimension(width, height+40));
-      
-	   
+	  fs = new SaveFileWriter("game.xml");
+	  System.out.println("player exp " + player.getExp());
 	  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Handle the CLOSE button
 	  setTitle("RPG");
 	  pack();           // pack all the components in the JFrame
 	  setVisible(true); // show it
 	  requestFocus();   // set the focus to JFrame to receive KeyEvent
 
+   }
+   
+   
+   private void getNumMonsters() {
+	   int count = 0;
+	   for (int i = 0; i < 13; i++) {
+		   for (int j = 0; j < 13; j++) {
+			   if(map.getMapTileAt(i, j).hasEnemyHere() && map.getMapTileAt(i, j).getEnemy().isAlive()) {
+				   count++;
+			   }
+		   }
+	   }
+	   numMonsters = count;
+	   System.out.println(numMonsters);
    }
    
 	private int getMonstersInArea(int c, int r) {
@@ -114,9 +151,11 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 				return count;
 			}
 			else if (r == 12) {
-				for (int i = 0; i < 2; i++) {
-					for (int j = r-1; j <= r; j++) {
-						if(map.getMapTileAt(j, i).hasEnemyHere()) count+=map.getMapTileAt(j, i).getEnemy().getLevel();
+				for (int j = 0; j < 2; j++) {
+					for (int i = r-1; i <= r; i++) {
+						if(map.getMapTileAt(j, i).hasEnemyHere()) {
+							count+=map.getMapTileAt(j, i).getEnemy().getLevel();
+						}
 					}
 				}
 				return count;
@@ -304,33 +343,38 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 					g.setColor(Color.red);
 					g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
 				}
-				if (numSquares >= 169) {
+				if (numSquares - (totalM - numMonsters) >= 169 - totalM) {
 					g.setColor(Color.green);
 					g.fillRect(getTopLeftX(c), getTopLeftY(r), w, h);
 				}
 			}
 		}
-		if (numSquares >= 169) {
+		if (numSquares - (totalM - numMonsters) >= 169 - totalM) { //if the number of squares visited - num
 			g.setColor(Color.black);
-			g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-			g.drawString("Congrats! You won!", getCenterX(5), getCenterY(5));
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 49));
+			g.drawString("Congrats! You won!", getCenterX(2), getCenterY(6));
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 24));
+			g.drawString("Press SPACE to continue", getTopLeftX(4), getCenterY(7));
+			
+			
 		}
-		if (numSquares >= 169) {
-			goToNextLevel();
-		}
+
   	}
   	
   	public void goToNextLevel() {
   		try {
   			Thread.sleep(2000);
   			controlNum++;
-  			monsterlevel += 9;
+  			monsterlevel += 8;
   			System.out.println("Player stats");
   			System.out.println(player.getLevel());
   			System.out.println(player.getMaxHealth());
+  			System.out.println(controlNum);
   			initialLevelStart = player.getLevel();
   			initialMonsterStart = monsterlevel;
-  			initializeGame(player.getLevel(), monsterlevel, controlNum);
+  			baseExpForLevel = player.getExp();
+  			System.out.println("Base exp for level " + baseExpForLevel);
+  			initializeGame(player.getLevel(), monsterlevel, controlNum, baseExpForLevel);
   		}
   		catch(Exception e){
   			e.printStackTrace();
@@ -343,7 +387,6 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	 */
 	private void highlightSelectedSquares(Graphics g) {
 		if (selectedSquare!=null){
-			System.out.println("Graphics are reset");
 			// paint selected square with red border
 			g.setColor(Color.red);
 			g.drawRect(getTopLeftX(selectedSquare.x), getTopLeftY(selectedSquare.y),w,h);
@@ -396,8 +439,6 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-			System.out.println("This code should run");
-			System.out.println(h);
 			tile = map.returnCurrentMapTile();
            JPanel panel = new JPanel();
            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -467,6 +508,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 				if(mp.getHealth() <= 0 && mp.isAlive()) {
 					textArea.append("Congrats! You won the fight!\n");
 					textArea.append(player.incExp(mp) + "\n");
+					System.out.println(player.getExp());
 					mp.isDead();
 					numMonsters--;
 				}
@@ -477,17 +519,21 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
            	
 			}
 			else if (e.getSource() == button) {
-				if (tile.hasEnemyHere() && mp.isAlive()) {
+				if (tile.hasEnemyHere() && mp.isAlive() && player.getHealth() > 0) {
 					textArea.append("Cannot run from a fight!\n");
 				}
 				else {
 					dispose();
+					numSquares++;
+					Graph.this.setEnabled(true);
+					Graph.this.requestFocus();
 					levelPlayer.setText("Level " + Integer.toString(player.getLevel()));
 					hp.setMaximum(player.getMaxHealth());
 					hp.setString(Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth()));
 					hp.setValue(player.getHealth());
 					monsters.setString(Integer.toString(numMonsters) + "/" + Integer.toString(totalM));
 					monsters.setValue(numMonsters);
+					canvas.repaint();
 				}
 			}
 			
@@ -505,40 +551,42 @@ public void keyPressed(KeyEvent arg0) {
 	int val = arg0.getKeyCode();
 	Point newPosition;
 	switch (val) {
-	case 87:
-		if (selectedSquare.y <= 0) return;
-		newPosition = new Point(selectedSquare.x, selectedSquare.y-1);
-		selectedSquare = newPosition;
-		map.currentPosition[1] = selectedSquare.y;
-		break;
-	case 83:
-		if (selectedSquare.y >= 12) return;
-		newPosition = new Point(selectedSquare.x, selectedSquare.y+1);
-		selectedSquare = newPosition;
-		map.currentPosition[1] = selectedSquare.y;
-		break;
-	case 65:
-		if (selectedSquare.x <= 0) return;
-		newPosition = new Point(selectedSquare.x -1, selectedSquare.y);
-		selectedSquare = newPosition;
-		map.currentPosition[0] = selectedSquare.x;
-		break;
-	case 68:
-		if (selectedSquare.x >= 12) return;
-		newPosition = new Point(selectedSquare.x +1, selectedSquare.y);
-		selectedSquare = newPosition;
-		map.currentPosition[0] = selectedSquare.x;
-		break;
-	case 10:
-		MapTile tile = map.returnCurrentMapTile();
-		if (!tile.hasBeenVisited()) {
-			makeMessageWindow();
-			tile.toggleVisited();
-			numSquares++;
-		}
+		case 87:
+			if (selectedSquare.y <= 0) return;
+			newPosition = new Point(selectedSquare.x, selectedSquare.y-1);
+			selectedSquare = newPosition;
+			map.currentPosition[1] = selectedSquare.y;
+			break;
+		case 83:
+			if (selectedSquare.y >= 12) return;
+			newPosition = new Point(selectedSquare.x, selectedSquare.y+1);
+			selectedSquare = newPosition;
+			map.currentPosition[1] = selectedSquare.y;
+			break;
+		case 65:
+			if (selectedSquare.x <= 0) return;
+			newPosition = new Point(selectedSquare.x -1, selectedSquare.y);
+			selectedSquare = newPosition;
+			map.currentPosition[0] = selectedSquare.x;
+			break;
+		case 68:
+			if (selectedSquare.x >= 12) return;
+			newPosition = new Point(selectedSquare.x +1, selectedSquare.y);
+			selectedSquare = newPosition;
+			map.currentPosition[0] = selectedSquare.x;
+			break;
+		case 10:
+			MapTile tile = map.returnCurrentMapTile();
+			if (!tile.hasBeenVisited()) {
+				makeMessageWindow();
+				tile.toggleVisited();
+			}
+		case 32:
+			if (numSquares - (totalM - numMonsters) >= 169 - totalM) {
+				canvas.goToNextLevel();
+			}
 		break;
 	}
-	System.out.println(val);
 	//System.out.println(map.currentPosition[0] + " " + map.currentPosition[1]);
 	//System.out.println(selectedSquare.x + " " + selectedSquare.y);
 	canvas.repaint();
@@ -554,17 +602,73 @@ public void keyReleased(KeyEvent e) {
 @Override
 public void actionPerformed(ActionEvent e) {
 	if (e.getSource() == reset) {
-		initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum);
+		initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
 	}
 	else if (e.getSource() == startLevelOver) {
-		initializeGame(initialLevelStart, initialMonsterStart, controlNum);
+		System.out.println("Initial monster start");
+		System.out.println(initialMonsterStart);
+		initializeGame(initialLevelStart, initialMonsterStart, controlNum, baseExpForLevel);
+	}
+	else if (e.getSource() == prevLev) {
+		goToPreviousLevel();
+	}
+	else if (e.getSource() == saveGame) {
+		fs.writeFile(player, monsterlevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel);
+		System.out.println("Number of monsters is " + controlNum);
+		requestFocus();
+	}
+	else if (e.getSource() == loadGame) {
+		Map temp = fs.readFromFile();
+		initializeGameFromFile(temp);
+		
 	}
 	
 }
 
-private void initializeGame(int playerLevel, int monsterLevel, int difficulty) {
+public void goToPreviousLevel() {
+	if (monsterlevel > 0) {
+		controlNum--;
+		monsterlevel -= 8;
+		System.out.println("Player stats");
+		System.out.println(player.getLevel());
+		System.out.println(player.getMaxHealth());
+		System.out.println(initialLevelStart);
+		initialMonsterLevel = monsterlevel;
+		initializeGame(initialLevelStart, monsterlevel, controlNum, baseExpForLevel);
+	}
+}
+
+private void initializeGameFromFile(Map newMap) {
+	player = newMap.getPlayer();
+	monsterlevel = newMap.getBias();
+	totalM = newMap.getDifficulty();
+	int x = newMap.getPlayerPosition()[0];
+	int y = newMap.getPlayerPosition()[1];
+	Point p = new Point(x, y);
+	selectedSquare = p;
+	numSquares = newMap.getNumSquares();
+	levelPlayer.setText("Level " + Integer.toString(player.getLevel()));
+	map = newMap;
+	getNumMonsters();
+	controlNum = totalM;
+	System.out.println("Number of monsters is " + controlNum);
+	System.out.println("Player exp " + player.getExp());
+	hp.setMaximum(player.getMaxHealth());
+	hp.setString(Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth()));
+	hp.setValue(player.getHealth());
+	monsters.setString(Integer.toString(numMonsters) + "/" + Integer.toString(totalM));
+	monsters.setValue(numMonsters);
+	initialMonsterStart = monsterlevel;
+	initialLevelStart = fs.getInitialPlayerLevel();
+	baseExpForLevel = fs.getBaseExpForLevel();
+	canvas.repaint();
+	requestFocus();
+}
+
+private void initializeGame(int playerLevel, int monsterLevel, int difficulty, int exp) {
 	System.out.println("This code should run");
 	player = new Player(20, 5, playerLevel);
+	player.setExp(exp);
 	map = new Map(player);
 	map.populateMap(difficulty, monsterLevel);
 	numMonsters = difficulty;

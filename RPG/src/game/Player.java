@@ -13,15 +13,18 @@ public class Player {
 	private int previousHealth;
 	private int exp;
 	private int expLim;
+	private int baseAttack;
 	
 	public Player(int hp, int atk, int lvl) {
 		rn = new Random();
 		level = lvl;
 		health = hp * level;
 		attack = atk * level;
+		baseAttack = atk;
 		maxHP = health;
-		expLim = 5 * level;
+		expLim = 5 * level * (level + 1) / 2;
 		exp = 0;
+		baselineHp = hp;
 	}
 	
 	public void attack(Monster enemy) {
@@ -54,14 +57,22 @@ public class Player {
 		return level;
 	}
 	
+	public void setHealth(int h) {
+		health = h;
+	}
+	
 	public String incExp(Monster m) {
 		exp += (m.getLevel() * 3);
-		if (exp > expLim) {
+		if (exp > expLim) { //only updates level once
 			String val = "Player gained " + Integer.toString(m.getLevel() * 3) + " exp. Level up!";
 			level++;
 			expLim += 5 * level;
-			attack += attack;
-			maxHP += 20;
+			attack = baseAttack * level;
+			if (attack <= 0) {
+				attack = Integer.MAX_VALUE;
+				System.out.println("Max value");
+			}
+			maxHP += baselineHp;
 			return val;
 		}
 		else {
@@ -75,6 +86,15 @@ public class Player {
 	}
 	public int getMaxHealth() {
 		return maxHP;
+	}
+	
+	public int getExp() {
+		System.out.println("Exp limit is " + expLim);
+		return exp;
+	}
+	
+	public void setExp(int x) {
+		exp = x;
 	}
 	
 }

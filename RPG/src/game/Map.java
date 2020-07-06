@@ -6,6 +6,8 @@ public class Map {
 
 	private int[] nPop = new int[18];
 	private int difficulty;
+	private int b;
+	private int numSquares;
 	private int[] numArray;
 	MapTile[][] array = new MapTile[13][13];
 	int[] currentPosition;
@@ -23,7 +25,21 @@ public class Map {
 		}
 	}
 	
+	public Map(Player p, int d, int bias, int num) {
+		numSquares = num;
+		player = p;
+		difficulty = d;
+		b = bias;
+		currentPosition = new int[2];
+		for (int i = 0; i < 13; i++) {
+			for (int j = 0; j < 13; j++) {
+				array[i][j] = new MapTile();
+			}
+		}
+	}
+	
 	public void populateMap(int d, int bias) {
+		b = bias;
 		difficulty = d;
 		numArray = new int[difficulty];
 		populate(difficulty);
@@ -31,16 +47,20 @@ public class Map {
 		for (int i = 0; i < d; i++) {
 			int enA = rn.nextInt(12);
 			int enB = rn.nextInt(12);
-			if (array[enA][enB].getEnemy() == null) {
-				array[enA][enB].setEnemy(new Monster(6, 1, (numArray[i]) + bias));
+			while(array[enA][enB].getEnemy() != null) {
+				enA = rn.nextInt(12);
+				enB = rn.nextInt(12);
 			}
-			if (i % 5 == 0) {
-				int tA = rn.nextInt(12);
-				int tB = rn.nextInt(12);
-				if (!array[tA][tB].isTreasureHere()) {
-					array[tA][tB].setNumTreasure(1);
-				}
-			}
+			array[enA][enB].setEnemy(new Monster(6, 1, (numArray[i]) + bias));
+//			if (i % 5 == 0) {
+//				int tA = rn.nextInt(12);
+//				int tB = rn.nextInt(12);
+//				while(array[tA][tB].isTreasureHere()) {
+//					tA = rn.nextInt(12);
+//					tB = rn.nextInt(12);
+//				}
+//				array[tA][tB].setNumTreasure(1);
+//			}
 
 		}
 	}
@@ -68,6 +88,10 @@ public class Map {
 		}
 	}
 	
+	public void setPlayerPosition(int [] position) {
+		currentPosition = position;
+	}
+	
 	public void setPlayerPosition() {
 		currentPosition[0] = rn.nextInt(12);
 		currentPosition[1] = rn.nextInt(12);
@@ -83,5 +107,21 @@ public class Map {
 	
 	public MapTile getMapTileAt(int x, int y) {
 		return array[x][y];
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public int getDifficulty() {
+		return difficulty;
+	}
+	
+	public int getBias() {
+		return b;
+	}
+	
+	public int getNumSquares() {
+		return numSquares;
 	}
 }
