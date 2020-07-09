@@ -34,7 +34,9 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	int numSquares;
 	JLabel levelPlayer;
 	JLabel exp;
-	int numDeaths = 0;
+	JLabel resets;
+	boolean isFirstLoad = true;
+	int numResets = 3;
 	int monsterlevel = 0;
 	int initialPlayerXP = 0;
 	int startLevelPlayer = 1;
@@ -87,6 +89,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   levelPlayer.setText("Level " + Integer.toString(player.getLevel()));
 	   btnPanel.add(levelPlayer);
 	   
+	   
 	   startLevelOver = new JButton("Reset Level");
 	   startLevelOver.addActionListener(this);
 	   //btnPanel.add(startLevelOver);
@@ -103,9 +106,12 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   JPanel topPanel = new JPanel(new FlowLayout());
 	   prevLev = new JButton("Previous Level");
 	   prevLev.addActionListener(this);
+	   resets = new JLabel("");
+	   resets.setText("Resets left " + Integer.toString(numResets) + "/3");
 	   topPanel.add(saveGame);
 	   topPanel.add(loadGame);
 	   topPanel.add(reset);
+	   topPanel.add(resets);
 	   topPanel.add(prevLev);
 	   topPanel.add(startLevelOver);
 	   System.out.println("Top Panel height is " + topPanel.getHeight());
@@ -375,6 +381,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
   			baseExpForLevel = player.getExp();
   			System.out.println("Base exp for level " + baseExpForLevel);
   			initializeGame(player.getLevel(), monsterlevel, controlNum, baseExpForLevel);
+  			numResets = 3;
+  			resets.setText("Resets left " + Integer.toString(numResets) + "/3");
   		}
   		catch(Exception e){
   			e.printStackTrace();
@@ -619,7 +627,21 @@ public void actionPerformed(ActionEvent e) {
 	}
 	else if (e.getSource() == loadGame) {
 		Map temp = fs.readFromFile();
-		initializeGameFromFile(temp);
+		if(numResets > 0 && !isFirstLoad) {
+			initializeGameFromFile(temp);
+			numResets--;
+			resets.setText("Resets left " + Integer.toString(numResets) + "/3");
+		}
+		else if(isFirstLoad) {
+			isFirstLoad = false;
+			initializeGameFromFile(temp);
+		}
+		else {
+			goToPreviousLevel();
+			numResets = 3;
+			resets.setText("Resets left " + Integer.toString(numResets) + "/3");
+			fs.writeFile(player, monsterlevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel);
+		}
 		
 	}
 	
@@ -635,6 +657,9 @@ public void goToPreviousLevel() {
 		System.out.println(initialLevelStart);
 		initialMonsterLevel = monsterlevel;
 		initializeGame(initialLevelStart, monsterlevel, controlNum, baseExpForLevel);
+	}
+	else {
+		initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
 	}
 }
 

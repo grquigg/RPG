@@ -52,15 +52,15 @@ public class Map {
 				enB = rn.nextInt(12);
 			}
 			array[enA][enB].setEnemy(new Monster(6, 1, (numArray[i]) + bias));
-//			if (i % 5 == 0) {
-//				int tA = rn.nextInt(12);
-//				int tB = rn.nextInt(12);
-//				while(array[tA][tB].isTreasureHere()) {
-//					tA = rn.nextInt(12);
-//					tB = rn.nextInt(12);
-//				}
-//				array[tA][tB].setNumTreasure(1);
-//			}
+			if (i % 5 == 0) {
+				int tA = rn.nextInt(12);
+				int tB = rn.nextInt(12);
+				while(array[tA][tB].isTreasureHere()) {
+					tA = rn.nextInt(12);
+					tB = rn.nextInt(12);
+				}
+				array[tA][tB].setNumTreasure(1);
+			}
 
 		}
 	}
