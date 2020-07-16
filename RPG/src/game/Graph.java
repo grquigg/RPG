@@ -9,7 +9,7 @@ import javax.swing.text.DefaultCaret;
  * Custom Graphics Example: Using key/button to move a line left or right.
  */
 @SuppressWarnings("serial")
-public class Graph extends JFrame implements KeyListener, ActionListener {
+public class Graph extends JFrame implements KeyListener, ActionListener, ComponentListener {
    // Define constants for the various dimensions
    
 	Map map;
@@ -116,10 +116,17 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   topPanel.add(startLevelOver);
 	   System.out.println("Top Panel height is " + topPanel.getHeight());
 	   Container cp = getContentPane();
-	   cp.setLayout(new BorderLayout());
-	   cp.add(canvas, BorderLayout.CENTER);
-	   cp.add(btnPanel, BorderLayout.SOUTH);
-	   cp.add(topPanel, BorderLayout.BEFORE_FIRST_LINE);
+	   cp.setLayout(new GridBagLayout());
+	   GridBagConstraints gc = new GridBagConstraints();
+	   gc.fill = GridBagConstraints.HORIZONTAL;
+	   gc.gridx = 0;
+	   gc.gridy = 0;
+	   cp.add(topPanel, gc);
+	   gc.gridy = 1;
+	   cp.add(canvas, gc);
+	   gc.gridy = 2;
+	   cp.add(btnPanel, gc);
+
 	   //setPreferredSize(new Dimension(width, height+40));
 	  fs = new SaveFileWriter("game.xml");
 	  System.out.println("player exp " + player.getExp());
@@ -712,5 +719,33 @@ private void initializeGame(int playerLevel, int monsterLevel, int difficulty, i
 	monsters.setValue(numMonsters);
 	canvas.repaint();
 	requestFocus();
+}
+
+
+@Override
+public void componentResized(ComponentEvent e) {
+	System.out.println("Component resize");
+	
+}
+
+
+@Override
+public void componentMoved(ComponentEvent e) {
+	// TODO Auto-generated method stub
+	
+}
+
+
+@Override
+public void componentShown(ComponentEvent e) {
+	// TODO Auto-generated method stub
+	
+}
+
+
+@Override
+public void componentHidden(ComponentEvent e) {
+	// TODO Auto-generated method stub
+	
 }
 }
