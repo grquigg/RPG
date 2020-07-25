@@ -9,27 +9,27 @@ import javax.swing.text.DefaultCaret;
  * Custom Graphics Example: Using key/button to move a line left or right.
  */
 @SuppressWarnings("serial")
-public class Graph extends JFrame implements KeyListener, ActionListener, ComponentListener {
+public class Graph extends JFrame implements KeyListener, ActionListener {
    // Define constants for the various dimensions
    
-	Map map;
+	Map map; //the map
 	Player player;
-	int numMonsters;
+	int numMonstersLeft;
 	public int h = 50;
 	public int w = 50;
 	private int offX = 50;
 	private int offY = 30;
 	private Point selectedSquare;
 	private DrawCanvas canvas;
-	JProgressBar hp;
-	JProgressBar monsters;
-	JButton reset;
-	JButton startLevelOver;
-	JButton prevLev;
-	JButton saveGame;
-	JButton loadGame;
+	JProgressBar hpMeter;
+	JProgressBar monstersMeter;
+	JButton resetButton = new JButton("New Game");
+	JButton startLevelOverButton;
+	JButton prevLevelButton;
+	JButton saveGameButton;
+	JButton loadGameButton;
 	SaveFileWriter fs;
-	int controlNum = 30;
+	int controlNum = 30; //the number of monsters for level and the difficulty of the map
 	int totalM;
 	int numSquares;
 	JLabel levelPlayer;
@@ -37,14 +37,14 @@ public class Graph extends JFrame implements KeyListener, ActionListener, Compon
 	JLabel resets;
 	boolean isFirstLoad = true;
 	int numResets = 3;
-	int monsterlevel = 0;
+	int monsterLevel = 0;
 	int initialPlayerXP = 0;
 	int startLevelPlayer = 1;
 	int startSize = controlNum;
 	int initialControlNum = controlNum;
-	int initialMonsterLevel = monsterlevel;
+	int initialMonsterLevel = monsterLevel;
 	int initialLevelStart = startLevelPlayer;
-	int initialMonsterStart = monsterlevel;
+	int initialMonsterStart = monsterLevel;
 	int baseExpForLevel;
  
    // Constructor to set up the GUI components and event handlers
@@ -52,9 +52,9 @@ public class Graph extends JFrame implements KeyListener, ActionListener, Compon
 
 	   player = new Player(20, 5, startLevelPlayer);
 	   map = new Map(player);
-	   map.populateMap(controlNum, monsterlevel);
-	   numMonsters = controlNum;
-	   totalM = numMonsters;
+	   map.populateMap(controlNum, monsterLevel);
+	   numMonstersLeft = controlNum;
+	   totalM = numMonstersLeft;
 	   numSquares = 0;
 	   map.setPlayerPosition();
 	   baseExpForLevel = 0;
@@ -64,34 +64,32 @@ public class Graph extends JFrame implements KeyListener, ActionListener, Compon
 	   selectedSquare = p;
 	   // Set up a panel for the buttons
 	   JPanel btnPanel = new JPanel(new FlowLayout());
-	   reset = new JButton("New Game");
-	   reset.addActionListener(this);
+	   resetButton.addActionListener(this);
 	   //btnPanel.add(reset);
-	   hp = new JProgressBar(0, 20);
-	   hp.setValue(20);
-	   hp.setStringPainted(true);
-	   hp.setString(Integer.toString(player.getHealth()) + "/20");
+	   hpMeter = new JProgressBar(0, 20);
+	   hpMeter.setValue(20);
+	   hpMeter.setStringPainted(true);
+	   hpMeter.setString(Integer.toString(player.getHealth()) + "/20");
 	   JLabel lab1 = new JLabel("Player Health:");
 	   btnPanel.add(lab1);
-	   btnPanel.add(hp);
+	   btnPanel.add(hpMeter);
 	   int width = 12*w + 3*offX;
 	   int height = 12*h + 3*offY;
-	   //btnPanel.setPreferredSize(new Dimension(width, 40));
 	   JLabel lab2 = new JLabel("Monsters left: ");
 	   btnPanel.add(lab2);
-	   monsters = new JProgressBar(0, numMonsters);
-	   monsters.setValue(numMonsters);
-	   monsters.setStringPainted(true);
-	   monsters.setString(Integer.toString(numMonsters) + "/" + Integer.toString(totalM));
-	   btnPanel.add(monsters);
+	   monstersMeter = new JProgressBar(0, numMonstersLeft);
+	   monstersMeter.setValue(numMonstersLeft);
+	   monstersMeter.setStringPainted(true);
+	   monstersMeter.setString(Integer.toString(numMonstersLeft) + "/" + Integer.toString(totalM));
+	   btnPanel.add(monstersMeter);
 	   
 	   levelPlayer = new JLabel("");
 	   levelPlayer.setText("Level " + Integer.toString(player.getLevel()));
 	   btnPanel.add(levelPlayer);
 	   
 	   
-	   startLevelOver = new JButton("Reset Level");
-	   startLevelOver.addActionListener(this);
+	   startLevelOverButton = new JButton("Reset Level");
+	   startLevelOverButton.addActionListener(this);
 	   //btnPanel.add(startLevelOver);
 	   // Set up a custom drawing JPanel
 	   canvas = new DrawCanvas();
@@ -99,21 +97,21 @@ public class Graph extends JFrame implements KeyListener, ActionListener, Compon
 	   addKeyListener(this);
 	   // Add both panels to this JFrame's content-pane
 	   
-	   saveGame = new JButton("Save Game");
-	   loadGame = new JButton("Load Game");
-	   saveGame.addActionListener(this);
-	   loadGame.addActionListener(this);
+	   saveGameButton = new JButton("Save Game");
+	   loadGameButton = new JButton("Load Game");
+	   saveGameButton.addActionListener(this);
+	   loadGameButton.addActionListener(this);
 	   JPanel topPanel = new JPanel(new FlowLayout());
-	   prevLev = new JButton("Previous Level");
-	   prevLev.addActionListener(this);
+	   prevLevelButton = new JButton("Previous Level");
+	   prevLevelButton.addActionListener(this);
 	   resets = new JLabel("");
 	   resets.setText("Resets left " + Integer.toString(numResets) + "/3");
-	   topPanel.add(saveGame);
-	   topPanel.add(loadGame);
-	   topPanel.add(reset);
+	   topPanel.add(saveGameButton);
+	   topPanel.add(loadGameButton);
+	   topPanel.add(resetButton);
 	   topPanel.add(resets);
-	   topPanel.add(prevLev);
-	   topPanel.add(startLevelOver);
+	   topPanel.add(prevLevelButton);
+	   topPanel.add(startLevelOverButton);
 	   System.out.println("Top Panel height is " + topPanel.getHeight());
 	   Container cp = getContentPane();
 	   cp.setLayout(new GridBagLayout());
@@ -148,8 +146,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener, Compon
 			   }
 		   }
 	   }
-	   numMonsters = count;
-	   System.out.println(numMonsters);
+	   numMonstersLeft = count;
+	   System.out.println(numMonstersLeft);
    }
    
 	private int getMonstersInArea(int c, int r) {
@@ -356,13 +354,13 @@ public class Graph extends JFrame implements KeyListener, ActionListener, Compon
 					g.setColor(Color.red);
 					g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
 				}
-				if (numSquares - (totalM - numMonsters) >= 169 - totalM) {
+				if (numSquares - (totalM - numMonstersLeft) >= 169 - totalM) {
 					g.setColor(Color.green);
 					g.fillRect(getTopLeftX(c), getTopLeftY(r), w, h);
 				}
 			}
 		}
-		if (numSquares - (totalM - numMonsters) >= 169 - totalM) { //if the number of squares visited - num
+		if (numSquares - (totalM - numMonstersLeft) >= 169 - totalM) { //if the number of squares visited - num
 			g.setColor(Color.black);
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 49));
 			g.drawString("Congrats! You won!", getCenterX(2), getCenterY(6));
@@ -378,16 +376,16 @@ public class Graph extends JFrame implements KeyListener, ActionListener, Compon
   		try {
   			Thread.sleep(2000);
   			controlNum++;
-  			monsterlevel += 8;
+  			monsterLevel += 8;
   			System.out.println("Player stats");
   			System.out.println(player.getLevel());
   			System.out.println(player.getMaxHealth());
   			System.out.println(controlNum);
   			initialLevelStart = player.getLevel();
-  			initialMonsterStart = monsterlevel;
+  			initialMonsterStart = monsterLevel;
   			baseExpForLevel = player.getExp();
   			System.out.println("Base exp for level " + baseExpForLevel);
-  			initializeGame(player.getLevel(), monsterlevel, controlNum, baseExpForLevel);
+  			initializeGame(player.getLevel(), monsterLevel, controlNum, baseExpForLevel);
   			numResets = 3;
   			resets.setText("Resets left " + Integer.toString(numResets) + "/3");
   		}
@@ -525,7 +523,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener, Compon
 					textArea.append(player.incExp(mp) + "\n");
 					System.out.println(player.getExp());
 					mp.isDead();
-					numMonsters--;
+					numMonstersLeft--;
 				}
 				if(player.getHealth() <= 0) {
 					textArea.append("Game Over! You're dead!\n");
@@ -543,11 +541,11 @@ public class Graph extends JFrame implements KeyListener, ActionListener, Compon
 					Graph.this.setEnabled(true);
 					Graph.this.requestFocus();
 					levelPlayer.setText("Level " + Integer.toString(player.getLevel()));
-					hp.setMaximum(player.getMaxHealth());
-					hp.setString(Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth()));
-					hp.setValue(player.getHealth());
-					monsters.setString(Integer.toString(numMonsters) + "/" + Integer.toString(totalM));
-					monsters.setValue(numMonsters);
+					hpMeter.setMaximum(player.getMaxHealth());
+					hpMeter.setString(Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth()));
+					hpMeter.setValue(player.getHealth());
+					monstersMeter.setString(Integer.toString(numMonstersLeft) + "/" + Integer.toString(totalM));
+					monstersMeter.setValue(numMonstersLeft);
 					canvas.repaint();
 				}
 			}
@@ -597,7 +595,7 @@ public void keyPressed(KeyEvent arg0) {
 				tile.toggleVisited();
 			}
 		case 32:
-			if (numSquares - (totalM - numMonsters) >= 169 - totalM) {
+			if (numSquares - (totalM - numMonstersLeft) >= 169 - totalM) {
 				canvas.goToNextLevel();
 			}
 		break;
@@ -616,23 +614,23 @@ public void keyReleased(KeyEvent e) {
 
 @Override
 public void actionPerformed(ActionEvent e) {
-	if (e.getSource() == reset) {
+	if (e.getSource() == resetButton) {
 		initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
 	}
-	else if (e.getSource() == startLevelOver) {
+	else if (e.getSource() == startLevelOverButton) {
 		System.out.println("Initial monster start");
 		System.out.println(initialMonsterStart);
 		initializeGame(initialLevelStart, initialMonsterStart, controlNum, baseExpForLevel);
 	}
-	else if (e.getSource() == prevLev) {
+	else if (e.getSource() == prevLevelButton) {
 		goToPreviousLevel();
 	}
-	else if (e.getSource() == saveGame) {
-		fs.writeFile(player, monsterlevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel);
+	else if (e.getSource() == saveGameButton) {
+		fs.writeFile(player, monsterLevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel);
 		System.out.println("Number of monsters is " + controlNum);
 		requestFocus();
 	}
-	else if (e.getSource() == loadGame) {
+	else if (e.getSource() == loadGameButton) {
 		Map temp = fs.readFromFile();
 		if(numResets > 0 && !isFirstLoad) {
 			initializeGameFromFile(temp);
@@ -647,7 +645,7 @@ public void actionPerformed(ActionEvent e) {
 			goToPreviousLevel();
 			numResets = 3;
 			resets.setText("Resets left " + Integer.toString(numResets) + "/3");
-			fs.writeFile(player, monsterlevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel);
+			fs.writeFile(player, monsterLevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel);
 		}
 		
 	}
@@ -655,15 +653,15 @@ public void actionPerformed(ActionEvent e) {
 }
 
 public void goToPreviousLevel() {
-	if (monsterlevel > 0) {
+	if (monsterLevel > 0) {
 		controlNum--;
-		monsterlevel -= 8;
+		monsterLevel -= 8;
 		System.out.println("Player stats");
 		System.out.println(player.getLevel());
 		System.out.println(player.getMaxHealth());
 		System.out.println(initialLevelStart);
-		initialMonsterLevel = monsterlevel;
-		initializeGame(initialLevelStart, monsterlevel, controlNum, baseExpForLevel);
+		initialMonsterLevel = monsterLevel;
+		initializeGame(initialLevelStart, monsterLevel, controlNum, baseExpForLevel);
 	}
 	else {
 		initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
@@ -672,7 +670,7 @@ public void goToPreviousLevel() {
 
 private void initializeGameFromFile(Map newMap) {
 	player = newMap.getPlayer();
-	monsterlevel = newMap.getBias();
+	monsterLevel = newMap.getBias();
 	totalM = newMap.getDifficulty();
 	int x = newMap.getPlayerPosition()[0];
 	int y = newMap.getPlayerPosition()[1];
@@ -685,12 +683,12 @@ private void initializeGameFromFile(Map newMap) {
 	controlNum = totalM;
 	System.out.println("Number of monsters is " + controlNum);
 	System.out.println("Player exp " + player.getExp());
-	hp.setMaximum(player.getMaxHealth());
-	hp.setString(Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth()));
-	hp.setValue(player.getHealth());
-	monsters.setString(Integer.toString(numMonsters) + "/" + Integer.toString(totalM));
-	monsters.setValue(numMonsters);
-	initialMonsterStart = monsterlevel;
+	hpMeter.setMaximum(player.getMaxHealth());
+	hpMeter.setString(Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth()));
+	hpMeter.setValue(player.getHealth());
+	monstersMeter.setString(Integer.toString(numMonstersLeft) + "/" + Integer.toString(totalM));
+	monstersMeter.setValue(numMonstersLeft);
+	initialMonsterStart = monsterLevel;
 	initialLevelStart = fs.getInitialPlayerLevel();
 	baseExpForLevel = fs.getBaseExpForLevel();
 	canvas.repaint();
@@ -698,13 +696,12 @@ private void initializeGameFromFile(Map newMap) {
 }
 
 private void initializeGame(int playerLevel, int monsterLevel, int difficulty, int exp) {
-	System.out.println("This code should run");
 	player = new Player(20, 5, playerLevel);
 	player.setExp(exp);
 	map = new Map(player);
 	map.populateMap(difficulty, monsterLevel);
-	numMonsters = difficulty;
-	totalM = numMonsters;
+	numMonstersLeft = difficulty;
+	totalM = numMonstersLeft;
 	map.setPlayerPosition();
 	int x = map.getPlayerPosition()[0];
 	int y = map.getPlayerPosition()[1];
@@ -712,40 +709,13 @@ private void initializeGame(int playerLevel, int monsterLevel, int difficulty, i
 	selectedSquare = p;
 	numSquares = 0;
 	levelPlayer.setText("Level " + Integer.toString(player.getLevel()));
-	hp.setMaximum(player.getMaxHealth());
-	hp.setString(Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth()));
-	hp.setValue(player.getHealth());
-	monsters.setString(Integer.toString(numMonsters) + "/" + Integer.toString(totalM));
-	monsters.setValue(numMonsters);
+	hpMeter.setMaximum(player.getMaxHealth());
+	hpMeter.setString(Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth()));
+	hpMeter.setValue(player.getHealth());
+	monstersMeter.setString(Integer.toString(numMonstersLeft) + "/" + Integer.toString(totalM));
+	monstersMeter.setValue(numMonstersLeft);
 	canvas.repaint();
 	requestFocus();
 }
 
-
-@Override
-public void componentResized(ComponentEvent e) {
-	System.out.println("Component resize");
-	
-}
-
-
-@Override
-public void componentMoved(ComponentEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-
-
-@Override
-public void componentShown(ComponentEvent e) {
-	// TODO Auto-generated method stub
-	
-}
-
-
-@Override
-public void componentHidden(ComponentEvent e) {
-	// TODO Auto-generated method stub
-	
-}
 }
