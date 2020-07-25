@@ -24,10 +24,10 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	JProgressBar hpMeter;
 	JProgressBar monstersMeter;
 	JButton resetButton = new JButton("New Game");
-	JButton startLevelOverButton;
-	JButton prevLevelButton;
-	JButton saveGameButton;
-	JButton loadGameButton;
+	JButton startLevelOverButton = new JButton("Reset Level");
+	JButton prevLevelButton = new JButton("Previous Level");
+	JButton saveGameButton = new JButton("Save Game");
+	JButton loadGameButton = new JButton("Load Game");
 	SaveFileWriter fs;
 	int controlNum = 30; //the number of monsters for level and the difficulty of the map
 	int totalM;
@@ -63,32 +63,29 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   Point p = new Point(x, y);
 	   selectedSquare = p;
 	   // Set up a panel for the buttons
-	   JPanel btnPanel = new JPanel(new FlowLayout());
+	   JPanel bottomPanel = new JPanel(new FlowLayout());
 	   resetButton.addActionListener(this);
-	   //btnPanel.add(reset);
 	   hpMeter = new JProgressBar(0, 20);
 	   hpMeter.setValue(20);
 	   hpMeter.setStringPainted(true);
 	   hpMeter.setString(Integer.toString(player.getHealth()) + "/20");
 	   JLabel lab1 = new JLabel("Player Health:");
-	   btnPanel.add(lab1);
-	   btnPanel.add(hpMeter);
+	   bottomPanel.add(lab1);
+	   bottomPanel.add(hpMeter);
 	   int width = 12*w + 3*offX;
 	   int height = 12*h + 3*offY;
 	   JLabel lab2 = new JLabel("Monsters left: ");
-	   btnPanel.add(lab2);
+	   bottomPanel.add(lab2);
 	   monstersMeter = new JProgressBar(0, numMonstersLeft);
 	   monstersMeter.setValue(numMonstersLeft);
 	   monstersMeter.setStringPainted(true);
 	   monstersMeter.setString(Integer.toString(numMonstersLeft) + "/" + Integer.toString(totalM));
-	   btnPanel.add(monstersMeter);
+	   bottomPanel.add(monstersMeter);
 	   
 	   levelPlayer = new JLabel("");
 	   levelPlayer.setText("Level " + Integer.toString(player.getLevel()));
-	   btnPanel.add(levelPlayer);
+	   bottomPanel.add(levelPlayer);
 	   
-	   
-	   startLevelOverButton = new JButton("Reset Level");
 	   startLevelOverButton.addActionListener(this);
 	   //btnPanel.add(startLevelOver);
 	   // Set up a custom drawing JPanel
@@ -97,22 +94,21 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   addKeyListener(this);
 	   // Add both panels to this JFrame's content-pane
 	   
-	   saveGameButton = new JButton("Save Game");
-	   loadGameButton = new JButton("Load Game");
 	   saveGameButton.addActionListener(this);
 	   loadGameButton.addActionListener(this);
-	   JPanel topPanel = new JPanel(new FlowLayout());
-	   prevLevelButton = new JButton("Previous Level");
 	   prevLevelButton.addActionListener(this);
+	   
+	   JPanel topPanel = new JPanel(new FlowLayout());
 	   resets = new JLabel("");
 	   resets.setText("Resets left " + Integer.toString(numResets) + "/3");
+	   
 	   topPanel.add(saveGameButton);
 	   topPanel.add(loadGameButton);
 	   topPanel.add(resetButton);
 	   topPanel.add(resets);
 	   topPanel.add(prevLevelButton);
 	   topPanel.add(startLevelOverButton);
-	   System.out.println("Top Panel height is " + topPanel.getHeight());
+	   
 	   Container cp = getContentPane();
 	   cp.setLayout(new GridBagLayout());
 	   GridBagConstraints gc = new GridBagConstraints();
@@ -123,7 +119,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   gc.gridy = 1;
 	   cp.add(canvas, gc);
 	   gc.gridy = 2;
-	   cp.add(btnPanel, gc);
+	   cp.add(bottomPanel, gc);
 
 	   //setPreferredSize(new Dimension(width, height+40));
 	  fs = new SaveFileWriter("game.xml");
