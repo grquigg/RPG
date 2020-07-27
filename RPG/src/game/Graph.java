@@ -29,7 +29,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	JButton loadGameButton = new JButton("Load Game");
 	SaveFileWriter fs;
 	int controlNum = 30; //the number of monsters for level and the difficulty of the map
-	int numSquares;
+	int numSquares = 0;
 	JLabel levelPlayer;
 	JLabel exp;
 	JLabel resets;
@@ -43,46 +43,22 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	int initialMonsterLevel = monsterLevel;
 	int initialLevelStart = startLevelPlayer;
 	int initialMonsterStart = monsterLevel;
-	int baseExpForLevel;
-	int numMonstersLeft;
+	int baseExpForLevel = 0;
+	int numMonstersLeft = controlNum;
  
    // Constructor to set up the GUI components and event handlers
    public Graph() {
-
-	   player = new Player(20, 5, startLevelPlayer);
-	   map = new Map(player);
-	   map.populateMap(controlNum, monsterLevel);
-	   numMonstersLeft = controlNum;
-	   numSquares = 0;
-	   map.setPlayerPosition();
-	   baseExpForLevel = 0;
-	   int x = map.getPlayerPosition()[0];
-	   int y = map.getPlayerPosition()[1];
-	   Point p = new Point(x, y);
-	   selectedSquare = p;
-	   // Set up a panel for the buttons
 	   JPanel bottomPanel = new JPanel(new FlowLayout());
 	   resetButton.addActionListener(this);
-	   hpMeter = new JProgressBar(0, 20);
-	   hpMeter.setValue(20);
-	   hpMeter.setStringPainted(true);
-	   hpMeter.setString(Integer.toString(player.getHealth()) + "/20");
 	   JLabel healthPlayer = new JLabel("Player Health:");
-	   bottomPanel.add(healthPlayer);
-	   bottomPanel.add(hpMeter);
 	   int width = 12*w + 3*offX;
 	   int height = 12*h + 3*offY;
 	   JLabel leftMonsters = new JLabel("Monsters left: ");
 	   bottomPanel.add(leftMonsters);
 	   monstersMeter = new JProgressBar(0, numMonstersLeft);
-	   monstersMeter.setValue(numMonstersLeft);
 	   monstersMeter.setStringPainted(true);
-	   monstersMeter.setString(Integer.toString(numMonstersLeft) + "/" + Integer.toString(controlNum));
 	   bottomPanel.add(monstersMeter);
 	   
-	   levelPlayer = new JLabel("");
-	   levelPlayer.setText("Level " + Integer.toString(player.getLevel()));
-	   bottomPanel.add(levelPlayer);
 	   
 	   startLevelOverButton.addActionListener(this);
 	   saveGameButton.addActionListener(this);
@@ -94,6 +70,15 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   addKeyListener(this);
 	   // Add both panels to this JFrame's content-pane
 	   
+	   hpMeter = new JProgressBar(0, 20);
+	   hpMeter.setStringPainted(true);
+	   bottomPanel.add(healthPlayer);
+	   bottomPanel.add(hpMeter);
+	   
+	   levelPlayer = new JLabel("");
+	   bottomPanel.add(levelPlayer);
+	   
+	   initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
 	   
 	   JPanel topPanel = new JPanel(new FlowLayout());
 	   resets = new JLabel("");
@@ -119,13 +104,13 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   cp.add(bottomPanel, gc);
 
 	   //setPreferredSize(new Dimension(width, height+40));
-	  fs = new SaveFileWriter("game.xml");
-	  System.out.println("player exp " + player.getExp());
-	  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Handle the CLOSE button
-	  setTitle("RPG");
-	  pack();           // pack all the components in the JFrame
-	  setVisible(true); // show it
-	  requestFocus();   // set the focus to JFrame to receive KeyEvent
+	   fs = new SaveFileWriter("game.xml");
+	   System.out.println("player exp " + player.getExp());
+	   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Handle the CLOSE button
+	   setTitle("RPG");
+	   pack();           // pack all the components in the JFrame
+	   setVisible(true); // show it
+	   requestFocus();   // set the focus to JFrame to receive KeyEvent
 
    }
    
@@ -368,17 +353,17 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
   	public void goToNextLevel() {
   		try {
   			Thread.sleep(2000);
+  			int lPlayerLevel = player.getLevel();
+  			if(controlNum == numMonstersLeft) {
+  				lPlayerLevel++;
+  			}
   			controlNum++;
   			monsterLevel += 8;
-  			System.out.println("Player stats");
-  			System.out.println(player.getLevel());
-  			System.out.println(player.getMaxHealth());
-  			System.out.println(controlNum);
   			initialLevelStart = player.getLevel();
   			initialMonsterStart = monsterLevel;
   			baseExpForLevel = player.getExp();
   			System.out.println("Base exp for level " + baseExpForLevel);
-  			initializeGame(player.getLevel(), monsterLevel, controlNum, baseExpForLevel);
+  			initializeGame(lPlayerLevel, monsterLevel, controlNum, baseExpForLevel);
   			numResets = 3;
   			resets.setText("Resets left " + Integer.toString(numResets) + "/3");
   		}

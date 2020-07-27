@@ -1,184 +1,184 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Game>
-<Save baseExpForLevel="666" initialLevel="16" monsterLevel="112" numMonsters="44" numSquares="4" playerExp="666" playerHealth="320" playerLevel="16">
+<Save baseExpForLevel="0" initialLevel="1" monsterLevel="8" numMonsters="31" numSquares="1" playerExp="0" playerHealth="20" playerLevel="1">
 <Column num="0">
-<Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="0"/>
-<Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="1"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="true" isAlive="true" level="114" num="2"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="116" num="4"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="11" num="1"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="13" num="3"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="4"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="116" num="6"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="9" num="6"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="7"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="8"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="114" num="9"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="9" num="9"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="10"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="11"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="10" num="11"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
 </Column>
 <Column num="1">
-<Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="0"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="114" num="1"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="113" num="4"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="6"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="113" num="7"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="8"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="10"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="117" num="11"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
-</Column>
-<Column num="2">
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="115" num="0"/>
-<Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="1"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="115" num="2"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="4"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="6"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="7"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="8"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="114" num="10"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="114" num="11"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
-</Column>
-<Column num="3">
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="113" num="0"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="1"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="10" num="1"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="4"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="6"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="113" num="7"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="true" isAlive="true" level="9" num="7"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="8"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="10"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="9" num="11"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
+</Column>
+<Column num="2">
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="11" num="1"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="12" num="4"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="11" num="6"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="12" num="7"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="8"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="10"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="11"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
+</Column>
+<Column num="3">
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="1"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="13" num="3"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="4"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="6"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="7"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="8"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="10"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="11"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
 </Column>
 <Column num="4">
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="118" num="1"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="1"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="4"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="116" num="5"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="10" num="5"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="6"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="7"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="10" num="7"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="8"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="114" num="9"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="118" num="10"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="113" num="11"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="10"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="11"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
 </Column>
 <Column num="5">
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="1"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="1"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="4"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="113" num="5"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="116" num="6"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="118" num="7"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="115" num="8"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="115" num="9"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="116" num="10"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="10" num="4"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="6"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="7"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="8"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="10"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="11"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
 </Column>
 <Column num="6">
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="1"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="9" num="1"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="11" num="2"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="4"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="6"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="11" num="6"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="7"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="8"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="12" num="8"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="10"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="11"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
 </Column>
 <Column num="7">
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="117" num="0"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="1"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="3"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="10" num="2"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="4"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="6"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="117" num="7"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="120" num="8"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="7"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="11" num="8"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="13" num="9"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="10"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="11"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
 </Column>
 <Column num="8">
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="1"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="9" num="0"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="1"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="14" num="2"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="4"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="118" num="5"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="4"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="13" num="5"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="6"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="7"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="119" num="8"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="115" num="9"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="115" num="10"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="114" num="11"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="8"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="10"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="11"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
 </Column>
 <Column num="9">
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="1"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="113" num="3"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="113" num="4"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="4"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="119" num="6"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="115" num="7"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="8"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="6"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="7"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="8"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="120" num="10"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="10" num="10"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="11"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
 </Column>
 <Column num="10">
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="1"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="2"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="3"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="9" num="1"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="4"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="6"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="7"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="true" isAlive="true" level="117" num="8"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="117" num="9"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="8"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="10"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="11"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
 </Column>
 <Column num="11">
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="1"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="114" num="2"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="0"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="12" num="1"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="9" num="3"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="4"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="6"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="113" num="7"/>
+<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="12" num="7"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="8"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="9"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="119" num="10"/>
-<Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="116" num="11"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="10"/>
+<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="11"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
 </Column>
 <Column num="12">
@@ -194,8 +194,8 @@
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="9"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="10"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="11"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
+<Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="12"/>
 </Column>
-<PlayerPosition X="1" Y="1"/>
+<PlayerPosition X="12" Y="12"/>
 </Save>
 </Game>
