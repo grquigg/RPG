@@ -31,9 +31,17 @@ public class Player {
 		enemy.takeDamage(this);
 	}
 	
+	public void attack(Monster enemy, int attack) {
+		enemy.takeDamage(attack);
+	}
 	public void takeDamage(Monster m) {
 		previousHealth = health;
 		health = health - (rn.nextInt(m.getAttack())+1);
+	}
+	
+	public void takeDamage(int attack) {
+		previousHealth = health;
+		health = health - attack;
 	}
 	
 	public int getAttack() {
@@ -63,22 +71,27 @@ public class Player {
 	
 	public String incExp(Monster m) {
 		exp += (m.getLevel() * 3);
-		if (exp > expLim) { //only updates level once
-			String val = "Player gained " + Integer.toString(m.getLevel() * 3) + " exp. Level up!";
-			level++;
-			expLim += 5 * level;
-			attack = baseAttack * level;
-			if (attack <= 0) {
-				attack = Integer.MAX_VALUE;
-				System.out.println("Max value");
+		String val;
+		System.out.println("Level up");
+		if(exp > expLim) {
+			val = "Player gained " + Integer.toString(m.getLevel() * 3) + " exp. Level up!";
+			while (exp > expLim) { //only updates level once
+				System.out.println(level);
+				level++;
+				expLim += 5 * level;
+				attack = baseAttack * level;
+				if (attack <= 0) {
+					attack = Integer.MAX_VALUE;
+					System.out.println("Max value");
+				}
+				maxHP += baselineHp;
 			}
-			maxHP += baselineHp;
-			return val;
+			
 		}
 		else {
-			String val = "Player gained " + Integer.toString(m.getLevel() * 3);
-			return val;
+			val = "Player gained " + Integer.toString(m.getLevel() * 3);
 		}
+		return val;
 	}
 	
 	public void restoreHealth() {
@@ -96,5 +109,5 @@ public class Player {
 	public void setExp(int x) {
 		exp = x;
 	}
-	
+
 }

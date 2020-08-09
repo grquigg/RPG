@@ -18,7 +18,6 @@ public class Monster {
 		attack = lvl * atk;
 		if (attack <= 0) {
 			attack = Integer.MAX_VALUE;
-			System.out.println("Monsters in my head");
 		}
 		level = lvl;
 		isAlive = true;
@@ -29,10 +28,20 @@ public class Monster {
 		player.takeDamage(this);
 	}
 	
+	public void attack(Player player, int attack) {
+		player.takeDamage(attack);
+	}
+	
 	public void takeDamage(Player player) {
 		previousHealth = health;
 		//System.out.println(previousHealth);
 		health -= (rn.nextInt(player.getAttack())+1);
+	}
+	
+	public void takeDamage(int attack) {
+		previousHealth = health;
+		//System.out.println(previousHealth);
+		health -= attack;
 	}
 	
 	public int getAttack() {

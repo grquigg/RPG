@@ -43,6 +43,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	JLabel exp;
 	JLabel resets;
 	boolean isFirstLoad = true;
+	boolean hasSaveGameBeenClicked = false;
 	int numResets = 3;
 	int monsterLevel = 0;
 	int initialPlayerXP = 0;
@@ -75,6 +76,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 		   System.out.println("true");
 	   } else {
 		   screenState = State.InfoState;
+		   isFirstLoad = false;
+		   loadGameButton.setEnabled(false);
 	   }
 	   if(screenState == State.PlayingState) {
 		   playingStateSetup();
@@ -476,6 +479,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 		
 		JButton fight;
 		JButton button;
+		JButton ult;
 		JTextArea textArea;
 		JLabel playerHp;
 		JLabel monsterHp;
@@ -508,6 +512,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
            JPanel inputpanel = new JPanel();
            inputpanel.setLayout(new FlowLayout());
            fight = new JButton("Attack!");
+           ult = new JButton("Ultimate");
            button = new JButton("Run");
            String currentHp = Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth());
            playerHp = new JLabel(currentHp);
@@ -515,22 +520,24 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
            fight.addActionListener(this);
            fight.setVisible(false);
            monsterHp.setVisible(false);
+           ult.addActionListener(this);
+           ult.setVisible(false);
            button.addActionListener(this);
            if (tile.isTreasureHere()) {
            		textArea.append("Congrats! You found treasure! Health fully restored \n");
            		player.restoreHealth();
            }
            if (tile.hasEnemyHere()) {
-           	textArea.append("Found an enemy here! Prepare to fight!\n");
-           	mp = tile.getEnemy();
-           	fight.setVisible(true);
-           	monsterHp.setVisible(true);
-           	String text = Integer.toString(mp.getHealth()) + "/" + Integer.toString(mp.getMaxHealth());
-           	monsterHp.setText(text);
-           	
+	           	textArea.append("Found an enemy here! Prepare to fight!\n");
+	           	mp = tile.getEnemy();
+	           	fight.setVisible(true);
+	           	ult.setVisible(true);
+	           	monsterHp.setVisible(true);
+	           	String text = Integer.toString(mp.getHealth()) + "/" + Integer.toString(mp.getMaxHealth());
+	           	monsterHp.setText(text);
            } else {
-           	textArea.setText("There's nothing here. HP restored by 1.\n");
-           	player.increaseHealth();
+           		textArea.setText("There's nothing here. HP restored by 1.\n");
+           		player.increaseHealth();
            	
            }
            DefaultCaret caret = (DefaultCaret) textArea.getCaret();
@@ -538,6 +545,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
            panel.add(scroller);
            inputpanel.add(playerHp);
            inputpanel.add(fight);
+           inputpanel.add(ult);
            inputpanel.add(button);
            inputpanel.add(monsterHp);
            panel.add(inputpanel);
@@ -589,6 +597,34 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 					monstersMeter.setString(Integer.toString(numMonstersLeft) + "/" + Integer.toString(controlNum));
 					monstersMeter.setValue(numMonstersLeft);
 					canvas.repaint();
+				}
+			} else if(e.getSource() == ult) {
+				int max = player.getMaxHealth();
+				textArea.append("Use ultimate move!\n");
+				if(player.getHealth() != max) {
+					textArea.append("...but the player wasn't strong enough to handle it.\n");
+					player.setHealth(0);
+					String currentHp = Integer.toString(0) + "/" + Integer.toString(player.getMaxHealth());
+					playerHp.setText(currentHp);
+					textArea.append("Game Over! You're dead!\n");
+					setBackground(Color.RED);
+				} else {
+					int enemyHp = mp.getMaxHealth();
+					player.attack(mp, enemyHp);
+					textArea.append("Monster has taken " + Integer.toString(enemyHp) + " damage!\n");
+					String text = Integer.toString(mp.getHealth()) + "/" + Integer.toString(mp.getMaxHealth());
+					monsterHp.setText(text);
+					mp.attack(player, player.getMaxHealth()-1);
+					textArea.append("Player has taken " + Integer.toString(player.getMaxHealth()-1) + " damage!\n");
+					String currentHp = Integer.toString(player.getHealth()) + "/" + Integer.toString(player.getMaxHealth());
+					playerHp.setText(currentHp);
+					if(mp.getHealth() <= 0 && mp.isAlive()) {
+						textArea.append("Congrats! You won the fight!\n");
+						textArea.append(player.incExp(mp) + "\n");
+						System.out.println(player.getExp());
+						mp.isDead();
+						numMonstersLeft--;
+					}
 				}
 			}
 			
@@ -666,11 +702,15 @@ public void actionPerformed(ActionEvent e) {
 	}
 	else if (e.getSource() == saveGameButton) {
 		fs.writeFile(player, monsterLevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel, numResets);
+		hasSaveGameBeenClicked = true;
 		System.out.println("Number of monsters is " + controlNum);
 		requestFocus();
 	}
 	else if (e.getSource() == loadGameButton) {
 		Map temp = fs.readFromFile();
+		if(hasSaveGameBeenClicked) {
+			isFirstLoad = false;
+		}
 		if(numResets > 0 && !isFirstLoad) {
 			initializeGameFromFile(temp);
 			numResets--;
