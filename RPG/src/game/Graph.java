@@ -402,7 +402,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 				}
 			}
 		}
-		if (numSquares - (controlNum - numMonstersLeft) >= 169 - controlNum) { //if the number of squares visited - num
+		if (numSquares - (controlNum - numMonstersLeft) >= 169 - controlNum && player.getHealth() > 0) { //if the number of squares visited - num
 			g.setColor(Color.black);
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 49));
 			g.drawString("Congrats! You won!", getCenterX(2), getCenterY(6));
@@ -710,7 +710,12 @@ public void goToPreviousLevel() {
 		System.out.println(player.getMaxHealth());
 		System.out.println(initialLevelStart);
 		initialMonsterLevel = monsterLevel;
-		initializeGame(initialLevelStart, monsterLevel, controlNum, baseExpForLevel);
+		if (numResets == 0) {
+			initializeGame(player.getLevel(), monsterLevel, controlNum, baseExpForLevel);
+		}
+		else {
+			initializeGame(initialLevelStart, monsterLevel, controlNum, baseExpForLevel);
+		}
 	}
 	else {
 		initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
