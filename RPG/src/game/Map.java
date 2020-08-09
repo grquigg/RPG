@@ -8,6 +8,7 @@ public class Map {
 	private int difficulty;
 	private int b;
 	private int numSquares;
+	private int resetsLeft;
 	private int[] numArray;
 	MapTile[][] array = new MapTile[13][13];
 	int[] currentPosition;
@@ -123,5 +124,13 @@ public class Map {
 	
 	public int getNumSquares() {
 		return numSquares;
+	}
+	
+	public void setResetsLeft(int x) {
+		resetsLeft = x;
+	}
+	
+	public int getResetsLeft() {
+		return resetsLeft;
 	}
 }

@@ -25,7 +25,7 @@ public class SaveFileWriter {
 			fileName = name;
 		}
 		
-		public void writeFile(Player p, int monsterLevel, int numMonsters, int numSquares, Map map, int initialLevel, int baseExpForLevel) {
+		public void writeFile(Player p, int monsterLevel, int numMonsters, int numSquares, Map map, int initialLevel, int baseExpForLevel, int resetsLeft) {
 	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder dBuilder;
 	        try {
@@ -45,6 +45,7 @@ public class SaveFileWriter {
 	            save.setAttribute("playerExp", Integer.toString(p.getExp()));
 	            save.setAttribute("initialLevel", Integer.toString(initialLevel));
 	            save.setAttribute("baseExpForLevel", Integer.toString(baseExpForLevel));
+	            save.setAttribute("resetsLeft", Integer.toString(resetsLeft));
 	            for (int i = 0; i < 13; i++) {
 	            	Element column = doc.createElement("Column");
 	            	column.setAttribute("num", Integer.toString(i));
@@ -111,6 +112,7 @@ public class SaveFileWriter {
 				int numMonsters = Integer.parseInt(saveAttr.getNamedItem("numMonsters").getNodeValue());
 				int numSquares = Integer.parseInt(saveAttr.getNamedItem("numSquares").getNodeValue());
 				int exp = Integer.parseInt(saveAttr.getNamedItem("playerExp").getNodeValue());
+				int resetsLeft = Integer.parseInt(saveAttr.getNamedItem("resetsLeft").getNodeValue());
 				initialPlayerLevel = Integer.parseInt(saveAttr.getNamedItem("initialLevel").getNodeValue());
 				baseExpForLevel = Integer.parseInt(saveAttr.getNamedItem("baseExpForLevel").getNodeValue());
 				player = new Player(20, 5, playerLevel);
@@ -152,6 +154,7 @@ public class SaveFileWriter {
 				int y = Integer.parseInt(positionAttr.getNamedItem("Y").getNodeValue());
 				int [] position = {x, y};
 				map.setPlayerPosition(position);
+				map.setResetsLeft(resetsLeft);
 				return map;
 				
 			}

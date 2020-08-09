@@ -2,6 +2,8 @@ package game;
 
 import java.awt.*;       // Using AWT's Graphics and Color
 import java.awt.event.*; // Using AWT's event classes and listener interface
+import java.io.File;
+
 import javax.swing.*;    // Using Swing's components and containers
 import javax.swing.text.DefaultCaret;
 
@@ -9,15 +11,20 @@ import javax.swing.text.DefaultCaret;
  * Custom Graphics Example: Using key/button to move a line left or right.
  */
 @SuppressWarnings("serial")
+
+
 public class Graph extends JFrame implements KeyListener, ActionListener {
    // Define constants for the various dimensions
-   
+	
+	public enum State {InfoState, PlayingState};
+	
 	Map map; //the map
 	Player player;
 	public int h = 50;
 	public int w = 50;
 	private int offX = 50;
 	private int offY = 30;
+	State screenState;
 	private Point selectedSquare;
 	private DrawCanvas canvas;
 	JProgressBar hpMeter;
@@ -27,6 +34,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	JButton prevLevelButton = new JButton("Previous Level");
 	JButton saveGameButton = new JButton("Save Game");
 	JButton loadGameButton = new JButton("Load Game");
+	JButton startGame = new JButton("Start Game!");
 	SaveFileWriter fs;
 	int controlNum = 30; //the number of monsters for level and the difficulty of the map
 	int numSquares = 0;
@@ -48,6 +56,44 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
  
    // Constructor to set up the GUI components and event handlers
    public Graph() {
+	   File file = new File("game.xml");
+	   if(file.exists()) {
+		   screenState = State.PlayingState;
+		   System.out.println("true");
+	   } else {
+		   screenState = State.InfoState;
+	   }
+	   if(screenState == State.PlayingState) {
+		   playingStateSetup();
+		   initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
+	   }
+	   else if (screenState == State.InfoState) {
+		   infoStateSetup();
+	   }
+
+   }
+   
+   private void infoStateSetup() {
+	   JPanel mainPanel = new JPanel(new FlowLayout());
+	   JLabel title = new JLabel("Welcome to RPG");
+	   
+	   title.setFont(new Font("Serif", Font.PLAIN, 30));
+	   mainPanel.add(title);
+	   mainPanel.add(startGame);
+	   startGame.addActionListener(this);
+	   Container cp = getContentPane();
+	   cp.add(mainPanel);
+	   
+	   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Handle the CLOSE button
+	   setTitle("RPG");
+	   
+	   pack();           // pack all the components in the JFrame
+	   setVisible(true); // show it
+	   requestFocus();   // set the focus to JFrame to receive KeyEvent
+	
+   }
+
+   private void playingStateSetup() {
 	   JPanel bottomPanel = new JPanel(new FlowLayout());
 	   resetButton.addActionListener(this);
 	   JLabel healthPlayer = new JLabel("Player Health:");
@@ -77,8 +123,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   
 	   levelPlayer = new JLabel("");
 	   bottomPanel.add(levelPlayer);
-	   
-	   initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
+	  
 	   
 	   JPanel topPanel = new JPanel(new FlowLayout());
 	   resets = new JLabel("");
@@ -105,15 +150,12 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 
 	   //setPreferredSize(new Dimension(width, height+40));
 	   fs = new SaveFileWriter("game.xml");
-	   System.out.println("player exp " + player.getExp());
 	   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Handle the CLOSE button
 	   setTitle("RPG");
 	   pack();           // pack all the components in the JFrame
 	   setVisible(true); // show it
 	   requestFocus();   // set the focus to JFrame to receive KeyEvent
-
    }
-   
    
    private void getNumMonsters() {
 	   int count = 0;
@@ -403,7 +445,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 			
 			@Override
 			public void run() {
-				new PromptWindow("Out").createWindow();
+				new PromptWindow("Output").createWindow();
            }
 		});
 	}
@@ -601,7 +643,7 @@ public void actionPerformed(ActionEvent e) {
 		goToPreviousLevel();
 	}
 	else if (e.getSource() == saveGameButton) {
-		fs.writeFile(player, monsterLevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel);
+		fs.writeFile(player, monsterLevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel, numResets);
 		System.out.println("Number of monsters is " + controlNum);
 		requestFocus();
 	}
@@ -620,8 +662,10 @@ public void actionPerformed(ActionEvent e) {
 			goToPreviousLevel();
 			numResets = 3;
 			resets.setText("Resets left " + Integer.toString(numResets) + "/3");
-			fs.writeFile(player, monsterLevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel);
+			fs.writeFile(player, monsterLevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel, numResets);
 		}
+		
+	} else if (e.getSource() ==  startGame) {
 		
 	}
 	
@@ -665,6 +709,8 @@ private void initializeGameFromFile(Map newMap) {
 	initialMonsterStart = monsterLevel;
 	initialLevelStart = fs.getInitialPlayerLevel();
 	baseExpForLevel = fs.getBaseExpForLevel();
+	numResets = map.getResetsLeft();
+	resets.setText("Resets left " + Integer.toString(numResets) + "/3");
 	canvas.repaint();
 	requestFocus();
 }
