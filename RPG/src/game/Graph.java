@@ -35,6 +35,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	JButton saveGameButton = new JButton("Save Game");
 	JButton loadGameButton = new JButton("Load Game");
 	JButton startGame = new JButton("Start Game!");
+	JButton next = new JButton("Next Card");
 	SaveFileWriter fs;
 	int controlNum = 30; //the number of monsters for level and the difficulty of the map
 	int numSquares = 0;
@@ -53,6 +54,18 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	int initialMonsterStart = monsterLevel;
 	int baseExpForLevel = 0;
 	int numMonstersLeft = controlNum;
+	JPanel mainPanel;
+	JPanel cards = new JPanel(new CardLayout());
+	String cardLabel1 = "Demo Card 1";
+	JPanel card1 = new JPanel(new FlowLayout());
+	JLabel cardString1 = new JLabel(cardLabel1);
+	String cardLabel2 = "Demo Card 2";
+	JPanel card2 = new JPanel(new FlowLayout());
+	JLabel cardString2 = new JLabel(cardLabel2);
+	String cardLabel3 = "Demo Card 3";
+	JPanel card3 = new JPanel(new FlowLayout());
+	JLabel cardString3 = new JLabel(cardLabel3);
+	
  
    // Constructor to set up the GUI components and event handlers
    public Graph() {
@@ -74,13 +87,21 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
    }
    
    private void infoStateSetup() {
-	   JPanel mainPanel = new JPanel(new FlowLayout());
-	   JLabel title = new JLabel("Welcome to RPG");
-	   
+	   mainPanel = new JPanel(new FlowLayout());
+	   JLabel title = new JLabel("Welcome!");
 	   title.setFont(new Font("Serif", Font.PLAIN, 30));
 	   mainPanel.add(title);
+	   card1.add(cardString1);
+	   card2.add(cardString2);
+	   card3.add(cardString3);
+	   cards.add(card1, cardLabel1);
+	   cards.add(card2, cardLabel2);
+	   cards.add(card3, cardLabel3);
+	   mainPanel.add(cards);
 	   mainPanel.add(startGame);
+	   mainPanel.add(next);
 	   startGame.addActionListener(this);
+	   next.addActionListener(this);
 	   Container cp = getContentPane();
 	   cp.add(mainPanel);
 	   
@@ -335,6 +356,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
       @Override
       public void paint(Graphics g) {
          super.paint(g);
+         System.out.println("Paint drawCanvas");
          drawContentForSquares(g);
          drawLinesForGrid(g);
          highlightSelectedSquares(g);
@@ -666,7 +688,15 @@ public void actionPerformed(ActionEvent e) {
 		}
 		
 	} else if (e.getSource() ==  startGame) {
+		screenState = State.PlayingState;
+		remove(mainPanel);
+		revalidate();
 		
+		this.playingStateSetup();
+		this.initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
+	} else if (e.getSource() == next) {
+		  CardLayout cl = (CardLayout)(cards.getLayout());
+		  cl.next(cards);
 	}
 	
 }
