@@ -359,7 +359,6 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
       @Override
       public void paint(Graphics g) {
          super.paint(g);
-         System.out.println("Paint drawCanvas");
          drawContentForSquares(g);
          drawLinesForGrid(g);
          highlightSelectedSquares(g);
@@ -379,7 +378,11 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
   	private void drawContentForSquares(Graphics g) {
 		for (int r=0;r<=12;r++){
 			for (int c=0;c<=12;c++){
-				if (map.getMapTileAt(c, r).hasBeenVisited()) {
+				if (map.getMapTileAt(c, r).hasBeenMarked()) {
+					g.setColor(Color.white);
+					g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
+				}
+				else if (map.getMapTileAt(c, r).hasBeenVisited()) {
 					if (map.getMapTileAt(c, r).hasEnemyHere()) {
 						g.setColor(Color.blue);
 						g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
@@ -641,6 +644,7 @@ public void keyTyped(KeyEvent e) {
 public void keyPressed(KeyEvent arg0) {
 	int val = arg0.getKeyCode();
 	Point newPosition;
+	MapTile tile = map.returnCurrentMapTile();
 	switch (val) {
 		case 87:
 			if (selectedSquare.y <= 0) return;
@@ -667,16 +671,20 @@ public void keyPressed(KeyEvent arg0) {
 			map.currentPosition[0] = selectedSquare.x;
 			break;
 		case 10:
-			MapTile tile = map.returnCurrentMapTile();
 			if (!tile.hasBeenVisited()) {
 				makeMessageWindow();
 				tile.toggleVisited();
 			}
+			break;
 		case 32:
 			if (numSquares - (controlNum - numMonstersLeft) >= 169 - controlNum) {
 				canvas.goToNextLevel();
 			}
-		break;
+			break;
+		case 77:
+			if (!tile.hasBeenVisited()) {
+				tile.toggleMarked();
+			}
 	}
 	canvas.repaint();
 	

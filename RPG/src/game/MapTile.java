@@ -7,10 +7,12 @@ public class MapTile {
 	private Monster enemy = null;
 	private boolean hasTreasure;
 	private boolean visited;
+	private boolean isMarked;
 	
 	public MapTile() {
 		hasTreasure = false;
 		visited = false;
+		isMarked = false;
 	}
 	
 	public void setEnemy(Monster m) {
@@ -38,8 +40,19 @@ public class MapTile {
 		else return true;
 	}
 	
+	public void toggleMarked() {
+		if(!visited) {
+			isMarked = !isMarked;
+		}
+	}
+	
+	public boolean hasBeenMarked() {
+		return isMarked;
+	}
+	
 	public void toggleVisited() {
 		visited = true;
+		isMarked = false;
 	}
 	
 	public boolean hasBeenVisited() {
