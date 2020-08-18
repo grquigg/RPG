@@ -133,4 +133,86 @@ public class Map {
 	public int getResetsLeft() {
 		return resetsLeft;
 	}
+	
+	public void moveEnemies() {
+		for (int i = 0; i < array.length; i++) {
+			for (int j = 0; j < array[i].length; j++) {
+				//i is the column, j is the row
+				if(array[i][j].hasEnemyHere() && array[i][j].getEnemy().isAlive()) {
+					System.out.println("Monster at " + Integer.toString(i) + ", " + Integer.toString(j));
+					boolean [] choices = {true, true, true, true};
+					
+					int direction = rn.nextInt(4);
+					while(!isValid(direction, i, j)) { //how do we protect against infinite loops with this though?
+						choices[direction] = false;
+						System.out.println("Monster cannot move there");
+						if(!(choices[0] || choices[1] || choices[2] || choices[3])) {
+							System.out.println("Movement is impossible");
+							break;
+						}
+						while(!choices[direction]) {
+							direction = rn.nextInt(4);
+							System.out.println("Already determined that the monster cannot move there");
+						}
+					}
+					System.out.println("Found a place for the monster to move");
+					moveMonster(array[i][j], direction, i, j);
+				}
+			}
+		}
+	}
+
+	private void moveMonster(MapTile mapTile, int direction, int y, int x) {
+		Monster temp = mapTile.getEnemy();
+		switch(direction) {
+		case 0:
+			array[y][x-1].setEnemy(temp);
+			array[y][x].setEnemy(null);
+			break;
+		case 1:
+			array[y+1][x].setEnemy(temp);
+			array[y][x].setEnemy(null);
+			break;
+		case 2:
+			array[y][x+1].setEnemy(temp);
+			array[y][x].setEnemy(null);
+			break;
+		case 3:
+			array[y-1][x].setEnemy(temp);
+			array[y][x].setEnemy(null);
+			break;
+		}
+		
+	}
+
+	private boolean isValid(int direction, int y, int x) {
+		switch(direction) {
+		case 0: //North
+			if (x != 0 && !array[y][x-1].hasBeenVisited() && !array[y][x-1].hasEnemyHere()) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		case 1: //East
+			if (y != array.length-1 && !array[y+1][x].hasBeenVisited() && !array[y+1][x].hasEnemyHere()) {
+				return true;
+			} else {
+				return false;
+			}
+		case 2: //South
+			if(x != array.length-1 && !array[y][x+1].hasBeenVisited() && !array[y][x+1].hasEnemyHere()) {
+				return true;
+			} else {
+				return false;
+			}
+		case 3: //North
+			if(y != 0 && !array[y-1][x].hasBeenVisited() && !array[y-1][x].hasEnemyHere()) {
+				return true;
+			} else {
+				return false;
+			}
+		default: return false;
+		}
+	}
 }

@@ -577,6 +577,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 					System.out.println(player.getExp());
 					mp.isDead();
 					numMonstersLeft--;
+					map.moveEnemies();
+					canvas.repaint();
 				}
 				if(player.getHealth() <= 0) {
 					textArea.append("Game Over! You're dead!\n");
@@ -627,6 +629,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 						System.out.println(player.getExp());
 						mp.isDead();
 						numMonstersLeft--;
+						map.moveEnemies();
+						canvas.repaint();
 					}
 				}
 			}
