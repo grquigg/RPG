@@ -143,21 +143,7 @@ public class Map {
 					boolean [] choices = {true, true, true, true};
 					boolean cannotMove = false;
 					int direction = rn.nextInt(4);
-					while(!isValid(direction, i, j)) { //how do we protect against infinite loops with this though?
-						choices[direction] = false;
-						//System.out.println("Monster cannot move there");
-						if(!(choices[0] || choices[1] || choices[2] || choices[3])) {
-							//System.out.println("Movement is impossible");
-							cannotMove = true;
-							break;
-						}
-						while(!choices[direction]) {
-							direction = rn.nextInt(4);
-							//System.out.println("Already determined that the monster cannot move there");
-						}
-					}
-					//System.out.println("Found a place for the monster to move");
-					if(!cannotMove) {
+					if(isValid(direction, i, j)) { //how do we protect against infinite loops with this though?
 						moveMonster(array[i][j], direction, i, j);
 					}
 				}

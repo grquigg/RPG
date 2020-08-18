@@ -577,8 +577,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 					System.out.println(player.getExp());
 					mp.isDead();
 					numMonstersLeft--;
-					map.moveEnemies();
-					canvas.repaint();
+					//map.moveEnemies();
+					//canvas.repaint();
 				}
 				if(player.getHealth() <= 0) {
 					textArea.append("Game Over! You're dead!\n");
@@ -601,6 +601,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 					hpMeter.setValue(player.getHealth());
 					monstersMeter.setString(Integer.toString(numMonstersLeft) + "/" + Integer.toString(controlNum));
 					monstersMeter.setValue(numMonstersLeft);
+					map.moveEnemies();
 					canvas.repaint();
 				}
 			} else if(e.getSource() == ult) {
@@ -629,8 +630,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 						System.out.println(player.getExp());
 						mp.isDead();
 						numMonstersLeft--;
-						map.moveEnemies();
-						canvas.repaint();
+						//map.moveEnemies();
+						//canvas.repaint();
 					}
 				}
 			}
