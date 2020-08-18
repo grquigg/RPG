@@ -139,24 +139,27 @@ public class Map {
 			for (int j = 0; j < array[i].length; j++) {
 				//i is the column, j is the row
 				if(array[i][j].hasEnemyHere() && array[i][j].getEnemy().isAlive()) {
-					System.out.println("Monster at " + Integer.toString(i) + ", " + Integer.toString(j));
+					//System.out.println("Monster at " + Integer.toString(i) + ", " + Integer.toString(j));
 					boolean [] choices = {true, true, true, true};
-					
+					boolean cannotMove = false;
 					int direction = rn.nextInt(4);
 					while(!isValid(direction, i, j)) { //how do we protect against infinite loops with this though?
 						choices[direction] = false;
-						System.out.println("Monster cannot move there");
+						//System.out.println("Monster cannot move there");
 						if(!(choices[0] || choices[1] || choices[2] || choices[3])) {
-							System.out.println("Movement is impossible");
+							//System.out.println("Movement is impossible");
+							cannotMove = true;
 							break;
 						}
 						while(!choices[direction]) {
 							direction = rn.nextInt(4);
-							System.out.println("Already determined that the monster cannot move there");
+							//System.out.println("Already determined that the monster cannot move there");
 						}
 					}
-					System.out.println("Found a place for the monster to move");
-					moveMonster(array[i][j], direction, i, j);
+					//System.out.println("Found a place for the monster to move");
+					if(!cannotMove) {
+						moveMonster(array[i][j], direction, i, j);
+					}
 				}
 			}
 		}
