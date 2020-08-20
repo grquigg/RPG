@@ -70,22 +70,25 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
  
    // Constructor to set up the GUI components and event handlers
    public Graph() {
-	   File file = new File("game.xml");
-	   if(file.exists()) {
-		   screenState = State.PlayingState;
-		   System.out.println("true");
-	   } else {
-		   screenState = State.InfoState;
-		   isFirstLoad = false;
-		   loadGameButton.setEnabled(false);
-	   }
-	   if(screenState == State.PlayingState) {
-		   playingStateSetup();
-		   initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
-	   }
-	   else if (screenState == State.InfoState) {
-		   infoStateSetup();
-	   }
+	   playingStateSetup();
+	   initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
+	   isFirstLoad = true;
+//	   File file = new File("game.xml");
+//	   if(file.exists()) {
+//		   screenState = State.PlayingState;
+//		   System.out.println("true");
+//	   } else {
+//		   screenState = State.InfoState;
+//		   isFirstLoad = false;
+//		   loadGameButton.setEnabled(false);
+//	   }
+//	   if(screenState == State.PlayingState) {
+//		   playingStateSetup();
+//		   initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
+//	   }
+//	   else if (screenState == State.InfoState) {
+//		   infoStateSetup();
+//	   }
 
    }
    
