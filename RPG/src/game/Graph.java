@@ -577,8 +577,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 					System.out.println(player.getExp());
 					mp.isDead();
 					numMonstersLeft--;
-					//map.moveEnemies();
-					//canvas.repaint();
+					map.moveEnemies();
+					canvas.repaint();
 				}
 				if(player.getHealth() <= 0) {
 					textArea.append("Game Over! You're dead!\n");
@@ -601,7 +601,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 					hpMeter.setValue(player.getHealth());
 					monstersMeter.setString(Integer.toString(numMonstersLeft) + "/" + Integer.toString(controlNum));
 					monstersMeter.setValue(numMonstersLeft);
-					map.moveEnemies();
+					//map.moveEnemies();
 					canvas.repaint();
 				}
 			} else if(e.getSource() == ult) {
@@ -630,8 +630,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 						System.out.println(player.getExp());
 						mp.isDead();
 						numMonstersLeft--;
-						//map.moveEnemies();
-						//canvas.repaint();
+						map.moveEnemies();
+						canvas.repaint();
 					}
 				}
 			}
@@ -704,6 +704,8 @@ public void keyReleased(KeyEvent e) {
 public void actionPerformed(ActionEvent e) {
 	if (e.getSource() == resetButton) {
 		initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
+		numResets = 3;
+		resets.setText("Resets left " + Integer.toString(numResets) + "/3");
 	}
 	else if (e.getSource() == startLevelOverButton) {
 		System.out.println("Initial monster start");
@@ -711,12 +713,17 @@ public void actionPerformed(ActionEvent e) {
 		initializeGame(initialLevelStart, initialMonsterStart, controlNum, baseExpForLevel);
 	}
 	else if (e.getSource() == prevLevelButton) {
-		goToPreviousLevel();
+		if(monsterLevel > 0) {
+			goToPreviousLevel();
+		}
 	}
 	else if (e.getSource() == saveGameButton) {
 		fs.writeFile(player, monsterLevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel, numResets);
 		hasSaveGameBeenClicked = true;
 		System.out.println("Number of monsters is " + controlNum);
+		if(!loadGameButton.isEnabled()) {
+			loadGameButton.setEnabled(true);
+		}
 		requestFocus();
 	}
 	else if (e.getSource() == loadGameButton) {
@@ -725,8 +732,11 @@ public void actionPerformed(ActionEvent e) {
 			isFirstLoad = false;
 		}
 		if(numResets > 0 && !isFirstLoad) {
+			//System.out.println("This route should ideally be hit");
 			initializeGameFromFile(temp);
 			numResets--;
+			fs.writeFile(player, monsterLevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel, numResets);
+			System.out.println("Num resets " + Integer.toString(numResets));
 			resets.setText("Resets left " + Integer.toString(numResets) + "/3");
 		}
 		else if(isFirstLoad) {

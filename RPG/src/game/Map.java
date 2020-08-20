@@ -140,8 +140,6 @@ public class Map {
 				//i is the column, j is the row
 				if(array[i][j].hasEnemyHere() && array[i][j].getEnemy().isAlive()) {
 					//System.out.println("Monster at " + Integer.toString(i) + ", " + Integer.toString(j));
-					boolean [] choices = {true, true, true, true};
-					boolean cannotMove = false;
 					int direction = rn.nextInt(4);
 					if(isValid(direction, i, j)) { //how do we protect against infinite loops with this though?
 						moveMonster(array[i][j], direction, i, j);

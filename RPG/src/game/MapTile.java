@@ -2,7 +2,6 @@ package game;
 
 public class MapTile {
 
-	private int nEnemies;
 	private int nTreasure;
 	private Monster enemy = null;
 	private boolean hasTreasure;
@@ -13,6 +12,7 @@ public class MapTile {
 		hasTreasure = false;
 		visited = false;
 		isMarked = false;
+		nTreasure = 0;
 	}
 	
 	public void setEnemy(Monster m) {
@@ -27,6 +27,10 @@ public class MapTile {
 		nTreasure = n;
 		hasTreasure = true;
 		
+	}
+	
+	public int getTreasure() {
+		return nTreasure;
 	}
 	
 	public boolean isTreasureHere() {
