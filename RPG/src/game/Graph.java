@@ -653,27 +653,57 @@ public void keyPressed(KeyEvent arg0) {
 	int val = arg0.getKeyCode();
 	Point newPosition;
 	MapTile tile = map.returnCurrentMapTile();
+	boolean isMovementRestricted;
+	if(numSquares == 0) {
+		isMovementRestricted = false;
+	}
+	else isMovementRestricted = true;
+	//the player can only move from mapTiles 
 	switch (val) {
-		case 87:
+		case 87: //up
 			if (selectedSquare.y <= 0) return;
+			if(isMovementRestricted) {
+				if(!tile.hasBeenVisited() 
+						&& !map.getMapTileAt(selectedSquare.x, selectedSquare.y-1).hasBeenVisited()
+						&& ((selectedSquare.x >= 12 || !map.getMapTileAt(selectedSquare.x+1, selectedSquare.y-1).hasBeenVisited())
+						&& (selectedSquare.x <= 0 || !map.getMapTileAt(selectedSquare.x-1, selectedSquare.y-1).hasBeenVisited()))) return;
+			}
 			newPosition = new Point(selectedSquare.x, selectedSquare.y-1);
 			selectedSquare = newPosition;
 			map.currentPosition[1] = selectedSquare.y;
 			break;
-		case 83:
+		case 83: //down
 			if (selectedSquare.y >= 12) return;
+			if(isMovementRestricted) {
+				if(!tile.hasBeenVisited() 
+						&& !map.getMapTileAt(selectedSquare.x, selectedSquare.y+1).hasBeenVisited()
+						&& ((selectedSquare.x >= 12 || !map.getMapTileAt(selectedSquare.x+1, selectedSquare.y+1).hasBeenVisited())
+						&& (selectedSquare.x <= 0 || !map.getMapTileAt(selectedSquare.x-1, selectedSquare.y+1).hasBeenVisited()))) return;
+			}
 			newPosition = new Point(selectedSquare.x, selectedSquare.y+1);
 			selectedSquare = newPosition;
 			map.currentPosition[1] = selectedSquare.y;
 			break;
-		case 65:
+		case 65: //left
 			if (selectedSquare.x <= 0) return;
-			newPosition = new Point(selectedSquare.x -1, selectedSquare.y);
+			if(isMovementRestricted) {
+				if(!tile.hasBeenVisited() 
+						&& !map.getMapTileAt(selectedSquare.x-1, selectedSquare.y).hasBeenVisited()
+						&& ((selectedSquare.y >= 12 || !map.getMapTileAt(selectedSquare.x-1, selectedSquare.y+1).hasBeenVisited())
+						&& (selectedSquare.y <= 0 || !map.getMapTileAt(selectedSquare.x-1, selectedSquare.y-1).hasBeenVisited()))) return;
+			}
+			newPosition = new Point(selectedSquare.x-1, selectedSquare.y);
 			selectedSquare = newPosition;
 			map.currentPosition[0] = selectedSquare.x;
 			break;
-		case 68:
+		case 68: //right
 			if (selectedSquare.x >= 12) return;
+			if(isMovementRestricted) {
+				if(!tile.hasBeenVisited() 
+						&& !map.getMapTileAt(selectedSquare.x+1, selectedSquare.y).hasBeenVisited()
+						&& ((selectedSquare.y >= 12 || !map.getMapTileAt(selectedSquare.x+1, selectedSquare.y+1).hasBeenVisited())
+						&& (selectedSquare.y <= 0 || !map.getMapTileAt(selectedSquare.x+1, selectedSquare.y-1).hasBeenVisited()))) return;
+			}
 			newPosition = new Point(selectedSquare.x +1, selectedSquare.y);
 			selectedSquare = newPosition;
 			map.currentPosition[0] = selectedSquare.x;
