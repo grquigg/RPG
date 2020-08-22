@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Game>
-<Save baseExpForLevel="0" initialLevel="1" monsterLevel="0" numMonsters="30" numSquares="2" playerExp="0" playerHealth="20" playerLevel="1" resetsLeft="3">
+<Save baseExpForLevel="0" initialLevel="1" monsterLevel="0" numMonsters="30" numSquares="9" playerExp="0" playerHealth="20" playerLevel="1" resetsLeft="3">
 <Column num="0">
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
 <Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="1" num="1"/>
@@ -152,8 +152,8 @@
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
 </Column>
 <Column num="10">
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="0"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="1"/>
+<Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="0"/>
+<Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="1"/>
 <Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="2" num="2"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
 <Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="2" num="4"/>
@@ -169,8 +169,8 @@
 <Column num="11">
 <Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="0"/>
 <Row hasBeenVisited="false" hasMonster="true" hasTreasure="false" isAlive="true" level="3" num="1"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
+<Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="2"/>
+<Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="3"/>
 <Row hasBeenVisited="false" hasMonster="true" hasTreasure="true" isAlive="true" level="2" num="4"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="true" num="6"/>
@@ -183,9 +183,9 @@
 </Column>
 <Column num="12">
 <Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="0"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="1"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="2"/>
-<Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="3"/>
+<Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="1"/>
+<Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="2"/>
+<Row hasBeenVisited="true" hasMonster="false" hasTreasure="false" num="3"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="4"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="5"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="6"/>
@@ -196,6 +196,6 @@
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="11"/>
 <Row hasBeenVisited="false" hasMonster="false" hasTreasure="false" num="12"/>
 </Column>
-<PlayerPosition X="10" Y="0"/>
+<PlayerPosition X="10" Y="3"/>
 </Save>
 </Game>
