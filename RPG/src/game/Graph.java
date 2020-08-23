@@ -111,7 +111,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   Container cp = getContentPane();
 	   cp.add(mainPanel);
 	   
-	   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Handle the CLOSE button
+	    // Handle the CLOSE button
 	   setTitle("RPG");
 	   
 	   pack();           // pack all the components in the JFrame
@@ -177,7 +177,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 
 	   //setPreferredSize(new Dimension(width, height+40));
 	   fs = new SaveFileWriter("game.xml");
-	   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Handle the CLOSE button
+	   setDefaultCloseOperation(EXIT_ON_CLOSE); // Handle the CLOSE button
 	   setTitle("RPG");
 	   pack();           // pack all the components in the JFrame
 	   setVisible(true); // show it
@@ -474,9 +474,12 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
          }
       });
    }
-
+   
+   public void defaultCloseOperationCallback() {
+	   setDefaultCloseOperation(EXIT_ON_CLOSE);
+   }
    public void makeMessageWindow() {
-		
+	   	setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		EventQueue.invokeLater(new Runnable() {
 			
 			@Override
@@ -611,6 +614,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 					monstersMeter.setValue(numMonstersLeft);
 					//map.moveEnemies();
 					canvas.repaint();
+					Graph.this.defaultCloseOperationCallback();
 				}
 			} else if(e.getSource() == ult) {
 				int max = player.getMaxHealth();
@@ -640,6 +644,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 						numMonstersLeft--;
 						map.moveEnemies();
 						canvas.repaint();
+						Graph.this.defaultCloseOperationCallback();
 					}
 				}
 			}
