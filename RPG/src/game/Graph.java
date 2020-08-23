@@ -20,8 +20,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	
 	Map map; //the map
 	Player player;
-	public int h = 50;
-	public int w = 50;
+	public int h = 53;
+	public int w = 53;
 	private int offX = 50;
 	private int offY = 30;
 	State screenState;
@@ -370,17 +370,17 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
       
       private void drawLinesForGrid(Graphics g) {
 		// user can choose to see lines or not
-//		for (int i=0;i<=13;i++){
-//			//Lines
-//			g.setColor(Color.black);
-//			g.drawLine(offX,i*h+offY,w*13+offX,i*h+offY);
-//			g.drawLine(i*w+offX, offY, i*w+offX, (h*13)+offY);
-//		}
-    	g.setColor(Color.black);
-		g.drawLine(offX, offY, w*13+offX, offY);
-		g.drawLine(offX, offY, offX, (h*13)+offY);
-		g.drawLine(offX, 13*h+offY, w*13+offX, 13*h+offY);
-		g.drawLine(13*w+offX, offY, 13*w+offX, (h*13)+offY);
+		for (int i=0;i<=13;i++){
+			//Lines
+			g.setColor(Color.black);
+			g.drawLine(offX,i*h+offY,w*13+offX,i*h+offY);
+			g.drawLine(i*w+offX, offY, i*w+offX, (h*13)+offY);
+		}
+//    	g.setColor(Color.black);
+//		g.drawLine(offX, offY, w*13+offX, offY);
+//		g.drawLine(offX, offY, offX, (h*13)+offY);
+//		g.drawLine(offX, 13*h+offY, w*13+offX, 13*h+offY);
+//		g.drawLine(13*w+offX, offY, 13*w+offX, (h*13)+offY);
       }
       
   	private void drawContentForSquares(Graphics g) {
