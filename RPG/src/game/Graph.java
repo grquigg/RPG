@@ -816,6 +816,7 @@ public void actionPerformed(ActionEvent e) {
 		  CardLayout cl = (CardLayout)(cards.getLayout());
 		  cl.next(cards);
 	}
+	canvas.repaint();
 	
 }
 
