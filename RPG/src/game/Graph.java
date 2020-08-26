@@ -73,8 +73,10 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   playingStateSetup();
 	   initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
 	   isFirstLoad = true;
-//	   File file = new File("game.xml");
-//	   if(file.exists()) {
+	   File file = new File("game.xml");
+	   if(!file.exists()) {
+		   loadGameButton.setEnabled(false);
+	   }
 //		   screenState = State.PlayingState;
 //		   System.out.println("true");
 //	   } else {
@@ -409,6 +411,12 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 				if (player.getHealth() <= 0) {
 					g.setColor(Color.red);
 					g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
+					g.setColor(Color.black);
+					g.setFont(new Font("TimesRoman", Font.PLAIN, 49));
+					g.drawString("Sorry! You lost!", getCenterX(2), getCenterY(6));
+					g.setFont(new Font("TimesRoman", Font.PLAIN, 24));
+					g.drawString("Press the LOAD GAME button to try again", getTopLeftX(4), getCenterY(7));
+					Graph.this.confineUser();
 				}
 				if (numSquares - (controlNum - numMonstersLeft) >= 169 - controlNum) {
 					g.setColor(Color.green);
@@ -450,12 +458,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
   		};
   	}
     
-	/**
-	 * If squares are dragged, highlight selected ones with a red frame
-	 * @param g the graphics object to draw on
-	 */
 	private void highlightSelectedSquares(Graphics g) {
-		if (selectedSquare!=null){
+		if (selectedSquare!=null && player.getHealth() > 0){
 			// paint selected square with red border
 			g.setColor(Color.red);
 			g.drawRect(getTopLeftX(selectedSquare.x), getTopLeftY(selectedSquare.y),w,h);
@@ -477,6 +481,10 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
    
    public void defaultCloseOperationCallback() {
 	   setDefaultCloseOperation(EXIT_ON_CLOSE);
+   }
+   
+   public void confineUser() {
+	   setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
    }
    public void makeMessageWindow() {
 	   	setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -749,16 +757,19 @@ public void actionPerformed(ActionEvent e) {
 		initializeGame(startLevelPlayer, initialMonsterLevel, initialControlNum, 0);
 		numResets = 3;
 		resets.setText("Resets left " + Integer.toString(numResets) + "/3");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	else if (e.getSource() == startLevelOverButton) {
 		System.out.println("Initial monster start");
 		System.out.println(initialMonsterStart);
 		initializeGame(initialLevelStart, initialMonsterStart, controlNum, baseExpForLevel);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	else if (e.getSource() == prevLevelButton) {
 		if(monsterLevel > 0) {
 			goToPreviousLevel();
 		}
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	else if (e.getSource() == saveGameButton) {
 		fs.writeFile(player, monsterLevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel, numResets);
@@ -792,6 +803,7 @@ public void actionPerformed(ActionEvent e) {
 			resets.setText("Resets left " + Integer.toString(numResets) + "/3");
 			fs.writeFile(player, monsterLevel, controlNum, numSquares, map, initialLevelStart, baseExpForLevel, numResets);
 		}
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 	} else if (e.getSource() ==  startGame) {
 		screenState = State.PlayingState;
