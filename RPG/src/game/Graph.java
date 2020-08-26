@@ -42,6 +42,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	JLabel levelPlayer;
 	JLabel exp;
 	JLabel resets;
+	JLabel levelNum = new JLabel("Level #1");
 	boolean isFirstLoad = true;
 	boolean hasSaveGameBeenClicked = false;
 	int numResets = 3;
@@ -129,6 +130,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   int width = 12*w + 3*offX;
 	   int height = 12*h + 3*offY;
 	   JLabel leftMonsters = new JLabel("Monsters left: ");
+	   bottomPanel.add(levelNum);
 	   bottomPanel.add(leftMonsters);
 	   monstersMeter = new JProgressBar(0, numMonstersLeft);
 	   monstersMeter.setStringPainted(true);
@@ -157,7 +159,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   JPanel topPanel = new JPanel(new FlowLayout());
 	   resets = new JLabel("");
 	   resets.setText("Resets left " + Integer.toString(numResets) + "/3");
-	   
+	   topPanel.add(levelNum);
 	   topPanel.add(saveGameButton);
 	   topPanel.add(loadGameButton);
 	   topPanel.add(resetButton);
@@ -550,8 +552,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
            		player.restoreHealth();
            }
            if (tile.hasEnemyHere()) {
-	           	textArea.append("Found an enemy here! Prepare to fight!\n");
 	           	mp = tile.getEnemy();
+	           	textArea.append("Found a level " + Integer.toString(mp.getLevel()) + " enemy here! Prepare to fight!\n");
 	           	fight.setVisible(true);
 	           	ult.setVisible(true);
 	           	monsterHp.setVisible(true);
@@ -865,6 +867,7 @@ private void initializeGameFromFile(Map newMap) {
 	baseExpForLevel = fs.getBaseExpForLevel();
 	numResets = map.getResetsLeft();
 	resets.setText("Resets left " + Integer.toString(numResets) + "/3");
+	levelNum.setText("Level #" + Integer.toString(controlNum-29));
 	canvas.repaint();
 	requestFocus();
 }
@@ -888,6 +891,7 @@ private void initializeGame(int playerLevel, int monsterLevel, int difficulty, i
 	hpMeter.setValue(player.getHealth());
 	monstersMeter.setString(Integer.toString(numMonstersLeft) + "/" + Integer.toString(controlNum));
 	monstersMeter.setValue(numMonstersLeft);
+	levelNum.setText("Level #" + Integer.toString(controlNum-29));
 	canvas.repaint();
 	requestFocus();
 }
