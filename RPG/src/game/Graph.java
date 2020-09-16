@@ -390,6 +390,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
   	private void drawContentForSquares(Graphics g) {
 		for (int r=0;r<=12;r++){
 			for (int c=0;c<=12;c++){
+				g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
 				if (map.getMapTileAt(c, r).hasBeenMarked()) {
 					g.setColor(Color.white);
 					g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
@@ -415,9 +416,9 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 					g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
 					g.setColor(Color.black);
 					g.setFont(new Font("TimesRoman", Font.PLAIN, 49));
-					g.drawString("Sorry! You lost!", getCenterX(2), getCenterY(6));
+					g.drawString("Sorry! You lost!", getCenterX(3), getCenterY(6));
 					g.setFont(new Font("TimesRoman", Font.PLAIN, 24));
-					g.drawString("Press the LOAD GAME button to try again", getTopLeftX(4), getCenterY(7));
+					g.drawString("Press the LOAD GAME button to try again", getCenterX(2), getCenterY(7));
 					Graph.this.confineUser();
 				}
 				if (numSquares - (controlNum - numMonstersLeft) >= 169 - controlNum) {
@@ -443,14 +444,14 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
   			Thread.sleep(2000);
   			int lPlayerLevel = player.getLevel();
   			if(controlNum == numMonstersLeft) {
-  				lPlayerLevel++;
+  				lPlayerLevel+=controlNum;
   			}
   			controlNum++;
   			monsterLevel += 8;
   			initialLevelStart = player.getLevel();
   			initialMonsterStart = monsterLevel;
   			baseExpForLevel = player.getExp();
-  			System.out.println("Base exp for level " + baseExpForLevel);
+  			//System.out.println("Base exp for level " + baseExpForLevel);
   			initializeGame(lPlayerLevel, monsterLevel, controlNum, baseExpForLevel);
   			numResets = 3;
   			resets.setText("Resets left " + Integer.toString(numResets) + "/3");
