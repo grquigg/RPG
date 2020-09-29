@@ -20,8 +20,8 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	
 	Map map; //the map
 	Player player;
-	public int h = 53;
-	public int w = 53;
+	public int h = 45;
+	public int w = 45;
 	private int offX = 50;
 	private int offY = 30;
 	State screenState;
