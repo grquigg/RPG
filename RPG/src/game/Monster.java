@@ -11,8 +11,10 @@ public class Monster {
 	private int maxHP;
 	private boolean isAlive;
 	private int previousHealth;
+	private String monsterType;
 	
 	public Monster(int hp, int atk, int lvl) {
+		setMonsterType("Normal");
 		rn = new Random();
 		health = (int) (lvl * lvl * hp);
 		attack = lvl * atk;
@@ -71,5 +73,18 @@ public class Monster {
 	
 	public int getMaxHealth() {
 		return maxHP;
+	}
+	
+	public void setMonsterType(String s) {
+		monsterType = s;
+	}
+	
+	public String getMonsterType() {
+		return monsterType;
+	}
+	
+	public void resurrect() {
+		health = maxHP;
+		isAlive = true;
 	}
 }

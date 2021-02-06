@@ -7,12 +7,14 @@ public class MapTile {
 	private boolean hasTreasure;
 	private boolean visited;
 	private boolean isMarked;
+	private int index;
 	
 	public MapTile() {
 		hasTreasure = false;
 		visited = false;
 		isMarked = false;
 		nTreasure = 0;
+		index = -1;
 	}
 	
 	public void setEnemy(Monster m) {
@@ -59,7 +61,19 @@ public class MapTile {
 		isMarked = false;
 	}
 	
+	public void switchVisited() {
+		visited = false;
+		isMarked = false;
+	}
 	public boolean hasBeenVisited() {
 		return visited;
+	}
+	
+	public void setIndex(int i) {
+		index = i;
+	}
+	
+	public int getIndex() {
+		return index;
 	}
 }

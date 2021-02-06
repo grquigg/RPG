@@ -1,6 +1,9 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.Random;
+
+import game.Graph.Difficulty;
 
 public class Map {
 
@@ -9,6 +12,7 @@ public class Map {
 	private int b;
 	private int numSquares;
 	private int resetsLeft;
+	private int numHeals;
 	private int[] numArray;
 	MapTile[][] array = new MapTile[13][13];
 	int[] currentPosition;
@@ -17,7 +21,7 @@ public class Map {
 	
 	public Map(Player p) {
 		player = p;
-		
+		numHeals = 0;
 		currentPosition = new int[2];
 		for (int i = 0; i < 13; i++) {
 			for (int j = 0; j < 13; j++) {
@@ -28,6 +32,7 @@ public class Map {
 	
 	public Map(Player p, int d, int bias, int num) {
 		numSquares = num;
+		numHeals = 0;
 		player = p;
 		difficulty = d;
 		b = bias;
@@ -39,7 +44,7 @@ public class Map {
 		}
 	}
 	
-	public void populateMap(int d, int bias) {
+	public void populateMap(int d, int bias, Difficulty diff) {
 		b = bias;
 		difficulty = d;
 		numArray = new int[difficulty];
@@ -52,7 +57,11 @@ public class Map {
 				enA = rn.nextInt(12);
 				enB = rn.nextInt(12);
 			}
-			array[enA][enB].setEnemy(new Monster(6, 1, (numArray[i]) + bias));
+			if(i % 10 == 0 && diff == Difficulty.HARD) {
+				array[enA][enB].setEnemy(new Necromancer(6, 1, (numArray[i] + bias)));
+			} else {
+				array[enA][enB].setEnemy(new Monster(6, 1, (numArray[i]) + bias));
+			}
 			if (i % 5 == 0) {
 				int tA = rn.nextInt(12);
 				int tB = rn.nextInt(12);
@@ -61,9 +70,11 @@ public class Map {
 					tB = rn.nextInt(12);
 				}
 				array[tA][tB].setNumTreasure(1);
+				numHeals++;
 			}
 
 		}
+		player.setNumHeals(numHeals);
 	}
 	
 	public void populate(int d) {
@@ -201,5 +212,50 @@ public class Map {
 			}
 		default: return false;
 		}
+	}
+	
+	public void clearIndexes() {
+		for (int i = 0; i < 13; i++) {
+			for (int j = 0; j < 13; j++) {
+				array[i][j].setIndex(-1);
+			}
+		}
+	}
+	
+	public ArrayList<MapTile> getMonstersOnMap() {
+		ArrayList<MapTile> tiles = new ArrayList<MapTile>();
+		for (int i = 0; i < 13; i++) {
+			for (int j = 0; j < 13; j++) {
+				if(getMapTileAt(i, j).hasEnemyHere()) {
+					tiles.add(getMapTileAt(i, j));
+				}
+			}
+		}
+		return tiles;
+	}
+	
+	public ArrayList<MapTile> getDeadMonstersOnMap() {
+		ArrayList<MapTile> tiles = new ArrayList<MapTile>();
+		for (int i = 0; i < 13; i++) {
+			for (int j = 0; j < 13; j++) {
+				if(getMapTileAt(i, j).hasEnemyHere() && !getMapTileAt(i, j).getEnemy().isAlive()) {
+					tiles.add(getMapTileAt(i, j));
+				}
+			}
+		}
+		return tiles;
+	}
+	
+	public ArrayList<MapTile> getNecromancers() {
+		ArrayList<MapTile> tiles = new ArrayList<MapTile>();
+		for (int i = 0; i < 13; i++) {
+			for (int j = 0; j < 13; j++) {
+				if(getMapTileAt(i, j).hasEnemyHere() && getMapTileAt(i, j).getEnemy().isAlive() && getMapTileAt(i, j).getEnemy().getMonsterType() == "Necromancer") {
+					tiles.add(getMapTileAt(i, j));
+				}
+			}
+		}
+		return tiles;
+		
 	}
 }

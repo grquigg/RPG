@@ -16,6 +16,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import game.Graph.Difficulty;
+
 public class SaveFileWriter {
 		private int initialPlayerLevel;
 		private int baseExpForLevel;
@@ -46,6 +48,7 @@ public class SaveFileWriter {
 	            save.setAttribute("initialLevel", Integer.toString(initialLevel));
 	            save.setAttribute("baseExpForLevel", Integer.toString(baseExpForLevel));
 	            save.setAttribute("resetsLeft", Integer.toString(resetsLeft));
+	            save.setAttribute("numHeals", Integer.toString(p.getHeals()));
 	            for (int i = 0; i < 13; i++) {
 	            	Element column = doc.createElement("Column");
 	            	column.setAttribute("num", Integer.toString(i));
@@ -59,6 +62,7 @@ public class SaveFileWriter {
 	            		if (map.getMapTileAt(i, j).hasEnemyHere()) {
 	            			row.setAttribute("level", Integer.toString(map.getMapTileAt(i, j).getEnemy().getLevel()));
 	            			row.setAttribute("isAlive", Boolean.toString(map.getMapTileAt(i, j).getEnemy().isAlive()));
+	            			row.setAttribute("type", map.getMapTileAt(i, j).getEnemy().getMonsterType());
 	            			
 	            		}
 	            		column.appendChild(row);
@@ -115,9 +119,11 @@ public class SaveFileWriter {
 				int resetsLeft = Integer.parseInt(saveAttr.getNamedItem("resetsLeft").getNodeValue());
 				initialPlayerLevel = Integer.parseInt(saveAttr.getNamedItem("initialLevel").getNodeValue());
 				baseExpForLevel = Integer.parseInt(saveAttr.getNamedItem("baseExpForLevel").getNodeValue());
+				int heals = Integer.parseInt(saveAttr.getNamedItem("numHeals").getNodeValue());
 				player = new Player(20, 5, playerLevel);
 				player.setHealth(playerHealth);
 				player.setExp(exp);
+				player.setNumHeals(heals);
 				map = new Map(player, numMonsters, baseMonsterLevel, numSquares);
 				
 				NodeList columnList = doc.getElementsByTagName("Column");
@@ -132,8 +138,13 @@ public class SaveFileWriter {
 						boolean hasMonster = (cellAttr.getNamedItem("hasMonster").getNodeValue().equals("true")) ? true: false;
 						if (hasMonster) {
 							int monsterLevel = Integer.parseInt(cellAttr.getNamedItem("level").getNodeValue());
-							Monster m = new Monster(6, 1, monsterLevel);
-							map.getMapTileAt(i, j/2).setEnemy(m);
+							String type = cellAttr.getNamedItem("type").getNodeValue();
+							if (type.equals("Necromancer")) {
+								System.out.println("Found");
+								map.getMapTileAt(i, j/2).setEnemy(new Necromancer(6, 1, monsterLevel));
+							} else {
+								map.getMapTileAt(i, j/2).setEnemy(new Monster(6, 1, monsterLevel));
+							}
 							boolean isAlive = (cellAttr.getNamedItem("isAlive").getNodeValue().equals("true")) ? true: false;
 							if (!isAlive) {
 								map.getMapTileAt(i, j/2).getEnemy().isDead();
@@ -175,7 +186,7 @@ public class SaveFileWriter {
 		public static void main (String [] args) {
 			Player player = new Player(20, 5, 1);
 			Map map = new Map(player);
-			map.populateMap(30, 0);
+			map.populateMap(30, 0, Difficulty.HARD);
 			SaveFileWriter filer = new SaveFileWriter("game.xml");
 			filer.readFromFile();
 		}

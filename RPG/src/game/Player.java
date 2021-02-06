@@ -14,6 +14,7 @@ public class Player {
 	private int exp;
 	private int expLim;
 	private int baseAttack;
+	private int numHeals;
 	
 	public Player(int hp, int atk, int lvl) {
 		rn = new Random();
@@ -109,5 +110,16 @@ public class Player {
 	public void setExp(int x) {
 		exp = x;
 	}
-
+	
+	public void setNumHeals(int x) {
+		numHeals = x;
+	}
+	
+	public void heal() {
+		numHeals--;
+	}
+	
+	public int getHeals() {
+		return numHeals;
+	}
 }
