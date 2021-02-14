@@ -29,12 +29,12 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	public int cellSize = 50;
 	public int h = cellSize;
 	public int w = cellSize;
-	private int offX = 30;
-	private int offY = 0;
+	int offX = 30;
+	int offY = 0;
 	public int width = 12*w;
 	public int height = 12*h + 4*offY;
 	State screenState;
-	private Point selectedSquare;
+	Point selectedSquare;
 	private DrawCanvas canvas;
 	JProgressBar hpMeter;
 	JProgressBar monstersMeter;
@@ -83,7 +83,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	Difficulty diff = Difficulty.HARD;
 	ArrayList<Set> sets = new ArrayList<Set>();
    // Constructor to set up the GUI components and event handlers
-   public Graph() {
+	public Graph() {
 	   System.out.println("offX: " + Integer.toString(offX));
 	   setMenuBar(menuBar = new MenuBar());
 	   menuBar.add(fileMenu=new Menu("Options"));
@@ -184,7 +184,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   startLevelOverButton.addActionListener(this);
 	   prevLevelButton.addActionListener(this);
 	   
-	   canvas = new DrawCanvas();
+	   canvas = new DrawCanvas(this, map);
 	   System.out.println("Width: " + Integer.toString(width));
 	   System.out.println("Height: " + Integer.toString(height));
 	   canvas.setPreferredSize(new Dimension(width, height));
@@ -254,7 +254,12 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 	   System.out.println(numMonstersLeft);
    }
    
-   private int getMonstersInArea(int c, int r, Map m) {
+   public boolean checkVictoryConditions() {
+	   if (numSquares - (controlNum - numMonstersLeft) >= 169 - controlNum) {
+		   return true;
+	   } else return false;
+   }
+   public int getMonstersInArea(int c, int r, Map m) {
 		int count = 0;
 		if (c == 0) {
 			if (r == 0) { //if column and row are both zero
@@ -369,7 +374,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 		}
    }
    
-	private int getMonstersInArea(int c, int r) {
+	public int getMonstersInArea(int c, int r) {
 		int count = 0;
 		if (c == 0) {
 			if (r == 0) { //if column and row are both zero
@@ -603,180 +608,7 @@ public class Graph extends JFrame implements KeyListener, ActionListener {
 			return foundSolution;
 		}
 	
-	/**
-	 * Compute the top-left y coordinate for the current row y.
-	 * Used for drawing a tile.
-	 * @param r current row
-	 * @return y pixel coordinate for top left corner of this row
-	 */
-	private int getTopLeftY(int r) {
-		return r*h+offY;
-	}
-	/**
-	 * Compute the y coordinate for the center point in this row
-	 * @param r current row
-	 * @return y pixel coordinate for center point of this row
-	 */
-	private int getCenterY(int r) {
-		return r*h+(offY+h/2);
-	}
-	/**
-	 * Compute the top-left x coordinate for the current column c.
-	 * Used for drawing a tile.
-	 * @param c current column
-	 * @return x pixel coordinate for top left corner of this column
-	 */
-	private int getTopLeftX(int c) {
-		return c*w+offX;
-	}
-	/**
-	 * Compute the x coordinate for the center point in this column
-	 * @param c current column
-	 * @return x pixel coordinate for center point of this column
-	 */
-	private int getCenterX(int c) {
-		return c*w+(offX+w/2);
-	}
 	
- 
-   /**
-    * Define inner class DrawCanvas, which is a JPanel used for custom drawing.
-    */
-   class DrawCanvas extends JPanel {
-      @Override
-      public void paint(Graphics g) {
-         super.paint(g);
-         drawContentForSquares(g);
-         drawLinesForGrid(g);
-         highlightSelectedSquares(g);
-         
-      }
-      
-      private void drawLinesForGrid(Graphics g) {
-		// user can choose to see lines or not
-		for (int i=0;i<=13;i++){
-			//Lines
-			g.setColor(Color.black);
-			g.drawLine(offX,i*h+offY,w*13+offX,i*h+offY);
-			g.drawLine(i*w+offX, offY, i*w+offX, (h*13)+offY);
-		}
-//    	g.setColor(Color.black);
-//		g.drawLine(offX, offY, w*13+offX, offY);
-//		g.drawLine(offX, offY, offX, (h*13)+offY);
-//		g.drawLine(offX, 13*h+offY, w*13+offX, 13*h+offY);
-//		g.drawLine(13*w+offX, offY, 13*w+offX, (h*13)+offY);
-      }
-      
-  	private void drawContentForSquares(Graphics g) {
-  		if(c == CanvasState.MAP) {
-			for (int r = 0; r <= 12; r++){
-				for (int c = 0; c <=12; c++){
-					g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
-					if (map.getMapTileAt(c, r).hasBeenMarked()) {
-						g.setColor(Color.white);
-						g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
-					}
-					else if (map.getMapTileAt(c, r).hasBeenVisited()) {
-						if (map.getMapTileAt(c, r).hasEnemyHere()) {
-							g.setColor(Color.blue);
-							g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
-						}
-						else {
-							g.setColor(Color.green);
-							g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
-						}
-						g.setColor(Color.black);
-						g.drawString(""+Integer.toString(getMonstersInArea(c, r)),getCenterX(c),getCenterY(r));
-					}
-					else {
-						g.setColor(Color.gray);
-						g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
-					}
-					if (player.getHealth() <= 0) {
-						g.setColor(Color.red);
-						g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
-						g.setColor(Color.black);
-						g.setFont(new Font("TimesRoman", Font.PLAIN, 49));
-						g.drawString("Sorry! You lost!", getCenterX(3), getCenterY(6));
-						g.setFont(new Font("TimesRoman", Font.PLAIN, 24));
-						g.drawString("Press the LOAD GAME button to try again", getCenterX(2), getCenterY(7));
-						Graph.this.confineUser();
-					}
-					if (numSquares - (controlNum - numMonstersLeft) >= 169 - controlNum) {
-						g.setColor(Color.green);
-						g.fillRect(getTopLeftX(c), getTopLeftY(r), w, h);
-					}
-				}
-			}
-			if (numSquares - (controlNum - numMonstersLeft) >= 169 - controlNum && player.getHealth() > 0) { //if the number of squares visited - num
-				g.setColor(Color.black);
-				g.setFont(new Font("TimesRoman", Font.PLAIN, 49));
-				g.drawString("Congrats! You won!", getCenterX(2), getCenterY(6));
-				g.setFont(new Font("TimesRoman", Font.PLAIN, 24));
-				g.drawString("Press SPACE to continue", getTopLeftX(4), getCenterY(7));
-				
-				
-			}
-  		}
-  		else if (c == CanvasState.OVERLAY) {
-  			System.out.println("Overlay");
-  			for (int r = 0; r <= 12; r++) {
-  				for (int c = 0; c <= 12; c++) {
-  					if (m2.getMapTileAt(c, r).hasEnemyHere()) {
-  						g.setColor(Color.red);
-  						g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
-  						g.setColor(Color.black);
-  						g.drawString(""+Integer.toString(getMonstersInArea(c, r, m2)),getCenterX(c),getCenterY(r));
-  					}
-  					else {
-  						g.setColor(Color.white);
-  						g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);
-  						g.setColor(Color.black);
-  						g.drawString(""+Integer.toString(getMonstersInArea(c, r, m2)),getCenterX(c),getCenterY(r));
-  					}
-  				}
-  			}
-  			//code for overlay goes here
-  			/*
-  			 * 1. The user can move around wherever on the board they want
-  			 * 2. They press enter, they get a screen where they can enter in a number
-  			 * 3. Once they press done, the number will be entered in such that it outputs on the screen. The surrounding areas will be lit up in green. 
-  			 */
-  		}
-
-  	}
-  	
-  	public void goToNextLevel() {
-  		try {
-  			Thread.sleep(2000);
-  			int lPlayerLevel = player.getLevel();
-  			if(controlNum == numMonstersLeft) {
-  				lPlayerLevel+=controlNum;
-  			}
-  			controlNum++;
-  			monsterLevel += 8;
-  			initialLevelStart = player.getLevel();
-  			initialMonsterStart = monsterLevel;
-  			baseExpForLevel = player.getExp();
-  			//System.out.println("Base exp for level " + baseExpForLevel);
-  			initializeGame(lPlayerLevel, monsterLevel, controlNum, baseExpForLevel);
-  			numResets = 3;
-  			resets.setText("Resets left " + Integer.toString(numResets) + "/3");
-  		}
-  		catch(Exception e){
-  			e.printStackTrace();
-  		};
-  	}
-    
-	private void highlightSelectedSquares(Graphics g) {
-		if (selectedSquare!=null && player.getHealth() > 0){
-			// paint selected square with red border
-			g.setColor(Color.red);
-			g.drawRect(getTopLeftX(selectedSquare.x), getTopLeftY(selectedSquare.y),w,h);
-				// paint check square with red border
-		}
-		}
-   }
  
    // The entry main() method
    public static void main(String[] args) {
@@ -990,6 +822,27 @@ public void keyTyped(KeyEvent e) {
 	
 }
 
+public void goToNextLevel() {
+ 	try {
+ 		Thread.sleep(2000);
+ 		int lPlayerLevel = player.getLevel();
+ 		if(controlNum == numMonstersLeft) {
+ 			lPlayerLevel+=controlNum;
+ 		}
+ 		controlNum++;
+ 		monsterLevel += 8;
+ 		initialLevelStart = player.getLevel();
+ 		initialMonsterStart = monsterLevel;
+ 		baseExpForLevel = player.getExp();
+ 		//System.out.println("Base exp for level " + baseExpForLevel);
+ 		initializeGame(lPlayerLevel, monsterLevel, controlNum, baseExpForLevel);
+ 		numResets = 3;
+ 		resets.setText("Resets left " + Integer.toString(numResets) + "/3");
+ 	}
+ 	catch(Exception e){
+ 		e.printStackTrace();
+ 	};
+ 	}
 @Override
 public void keyPressed(KeyEvent arg0) {
 	int val = arg0.getKeyCode();
@@ -1087,7 +940,7 @@ public void keyPressed(KeyEvent arg0) {
 			break;
 		case 32:
 			if (numSquares - (controlNum - numMonstersLeft) >= 169 - controlNum) {
-				canvas.goToNextLevel();
+				goToNextLevel();
 			}
 			break;
 		case 77:
@@ -1149,6 +1002,7 @@ public void keyPressed(KeyEvent arg0) {
 			}
 			break;
 	}
+	canvas.updateSelectedSquare();
 	canvas.repaint();
 	
 }
@@ -1372,15 +1226,15 @@ private void initializeGame(int playerLevel, int monsterLevel, int difficulty, i
 	map.populateMap(difficulty, monsterLevel, diff);
 	sets.clear();
 	map.clearIndexes();
-//	while(!getSolution()) {
-//		map = new Map(player);
-//		map.populateMap(difficulty, monsterLevel);
-//		sets.clear();
-//		map.clearIndexes();
-//	}
-	getSolution();
-	map = new Map(player);
-	map.populateMap(difficulty, monsterLevel, diff);
+	while(!getSolution()) {
+		map = new Map(player);
+		map.populateMap(difficulty, monsterLevel, diff);
+		sets.clear();
+		map.clearIndexes();
+	}
+//	getSolution();
+//	map = new Map(player);
+//	map.populateMap(difficulty, monsterLevel, diff);
 	controlNum = difficulty;
 	numMonstersLeft = controlNum;
 	map.setPlayerPosition();
@@ -1398,7 +1252,9 @@ private void initializeGame(int playerLevel, int monsterLevel, int difficulty, i
 	monstersMeter.setString(Integer.toString(numMonstersLeft) + "/" + Integer.toString(controlNum));
 	monstersMeter.setValue(numMonstersLeft);
 	levelNum.setText("Level #" + Integer.toString(controlNum-39));
-	canvas.repaint();
+	canvas.notifyForMapUpdate();
+	canvas.notifyForPlayerUpdate();
+	canvas.updateSelectedSquare();
 }
 
 }
