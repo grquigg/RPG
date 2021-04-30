@@ -76,4 +76,5 @@ public class MapTile {
 	public int getIndex() {
 		return index;
 	}
+	
 }

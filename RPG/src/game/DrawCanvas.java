@@ -43,11 +43,11 @@ public class DrawCanvas extends JPanel {
      
      private void drawLinesForGrid(Graphics g) {
 		// user can choose to see lines or not
-		for (int i=0;i<=13;i++){
+		for (int i=0;i<=Constants.NUM_CELLS;i++){
 			//Lines
 			g.setColor(Color.black);
-			g.drawLine(offX,i*h+offY,w*13+offX,i*h+offY);
-			g.drawLine(i*w+offX, offY, i*w+offX, (h*13)+offY);
+			g.drawLine(offX,i*h+offY,w*Constants.NUM_CELLS+offX,i*h+offY);
+			g.drawLine(i*w+offX, offY, i*w+offX, (h*Constants.NUM_CELLS)+offY);
 		}
 //   	g.setColor(Color.black);
 //		g.drawLine(offX, offY, w*13+offX, offY);
@@ -58,8 +58,8 @@ public class DrawCanvas extends JPanel {
      
  	private void drawContentForSquares(Graphics g) {
  		if(c == CanvasState.MAP) {
-			for (int r = 0; r <= 12; r++){
-				for (int c = 0; c <=12; c++){
+			for (int r = 0; r <= Constants.NUM_CELLS-1; r++){
+				for (int c = 0; c <=Constants.NUM_CELLS-1; c++){
 					g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
 					if (map.getMapTileAt(c, r).hasBeenMarked()) {
 						g.setColor(Color.white);
@@ -109,8 +109,8 @@ public class DrawCanvas extends JPanel {
  		}
  		else if (c == CanvasState.OVERLAY) {
  			System.out.println("Overlay");
- 			for (int r = 0; r <= 12; r++) {
- 				for (int c = 0; c <= 12; c++) {
+ 			for (int r = 0; r <= Constants.NUM_CELLS-1; r++) {
+ 				for (int c = 0; c <= Constants.NUM_CELLS-1; c++) {
  					if (m2.getMapTileAt(c, r).hasEnemyHere()) {
  						g.setColor(Color.red);
  						g.fillRect(getTopLeftX(c), getTopLeftY(r),w,h);

@@ -14,7 +14,7 @@ public class Map {
 	private int resetsLeft;
 	private int numHeals;
 	private int[] numArray;
-	MapTile[][] array = new MapTile[13][13];
+	MapTile[][] array = new MapTile[Constants.NUM_CELLS][Constants.NUM_CELLS];
 	int[] currentPosition;
 	Random rn = new Random();
 	Player player;
@@ -23,8 +23,8 @@ public class Map {
 		player = p;
 		numHeals = 0;
 		currentPosition = new int[2];
-		for (int i = 0; i < 13; i++) {
-			for (int j = 0; j < 13; j++) {
+		for (int i = 0; i < Constants.NUM_CELLS; i++) {
+			for (int j = 0; j < Constants.NUM_CELLS; j++) {
 				array[i][j] = new MapTile();
 			}
 		}
@@ -37,8 +37,8 @@ public class Map {
 		difficulty = d;
 		b = bias;
 		currentPosition = new int[2];
-		for (int i = 0; i < 13; i++) {
-			for (int j = 0; j < 13; j++) {
+		for (int i = 0; i < Constants.NUM_CELLS; i++) {
+			for (int j = 0; j < Constants.NUM_CELLS; j++) {
 				array[i][j] = new MapTile();
 			}
 		}
@@ -51,11 +51,11 @@ public class Map {
 		populate(difficulty);
 		//method for calculating the constants for each monster
 		for (int i = 0; i < d; i++) {
-			int enA = rn.nextInt(12);
-			int enB = rn.nextInt(12);
+			int enA = rn.nextInt(Constants.NUM_CELLS-1);
+			int enB = rn.nextInt(Constants.NUM_CELLS-1);
 			while(array[enA][enB].getEnemy() != null) {
-				enA = rn.nextInt(12);
-				enB = rn.nextInt(12);
+				enA = rn.nextInt(Constants.NUM_CELLS-1);
+				enB = rn.nextInt(Constants.NUM_CELLS-1);
 			}
 			if(i % 10 == 0 && diff == Difficulty.HARD) {
 				array[enA][enB].setEnemy(new Necromancer(6, 1, (numArray[i] + bias)));
@@ -63,11 +63,11 @@ public class Map {
 				array[enA][enB].setEnemy(new Monster(6, 1, (numArray[i]) + bias));
 			}
 			if (i % 5 == 0) {
-				int tA = rn.nextInt(12);
-				int tB = rn.nextInt(12);
+				int tA = rn.nextInt(Constants.NUM_CELLS-1);
+				int tB = rn.nextInt(Constants.NUM_CELLS-1);
 				while(array[tA][tB].isTreasureHere()) {
-					tA = rn.nextInt(12);
-					tB = rn.nextInt(12);
+					tA = rn.nextInt(Constants.NUM_CELLS-1);
+					tB = rn.nextInt(Constants.NUM_CELLS-1);
 				}
 				array[tA][tB].setNumTreasure(1);
 				numHeals++;
@@ -105,8 +105,8 @@ public class Map {
 	}
 	
 	public void setPlayerPosition() {
-		currentPosition[0] = rn.nextInt(12);
-		currentPosition[1] = rn.nextInt(12);
+		currentPosition[0] = rn.nextInt(Constants.NUM_CELLS-1);
+		currentPosition[1] = rn.nextInt(Constants.NUM_CELLS-1);
 	}
 	
 	public int[] getPlayerPosition() {
@@ -215,8 +215,8 @@ public class Map {
 	}
 	
 	public void clearIndexes() {
-		for (int i = 0; i < 13; i++) {
-			for (int j = 0; j < 13; j++) {
+		for (int i = 0; i < Constants.NUM_CELLS; i++) {
+			for (int j = 0; j < Constants.NUM_CELLS; j++) {
 				array[i][j].setIndex(-1);
 			}
 		}
@@ -224,8 +224,8 @@ public class Map {
 	
 	public ArrayList<MapTile> getMonstersOnMap() {
 		ArrayList<MapTile> tiles = new ArrayList<MapTile>();
-		for (int i = 0; i < 13; i++) {
-			for (int j = 0; j < 13; j++) {
+		for (int i = 0; i < Constants.NUM_CELLS; i++) {
+			for (int j = 0; j < Constants.NUM_CELLS; j++) {
 				if(getMapTileAt(i, j).hasEnemyHere()) {
 					tiles.add(getMapTileAt(i, j));
 				}
@@ -236,8 +236,8 @@ public class Map {
 	
 	public ArrayList<MapTile> getDeadMonstersOnMap() {
 		ArrayList<MapTile> tiles = new ArrayList<MapTile>();
-		for (int i = 0; i < 13; i++) {
-			for (int j = 0; j < 13; j++) {
+		for (int i = 0; i < Constants.NUM_CELLS; i++) {
+			for (int j = 0; j < Constants.NUM_CELLS; j++) {
 				if(getMapTileAt(i, j).hasEnemyHere() && !getMapTileAt(i, j).getEnemy().isAlive()) {
 					tiles.add(getMapTileAt(i, j));
 				}
@@ -248,8 +248,8 @@ public class Map {
 	
 	public ArrayList<MapTile> getNecromancers() {
 		ArrayList<MapTile> tiles = new ArrayList<MapTile>();
-		for (int i = 0; i < 13; i++) {
-			for (int j = 0; j < 13; j++) {
+		for (int i = 0; i < Constants.NUM_CELLS; i++) {
+			for (int j = 0; j < Constants.NUM_CELLS; j++) {
 				if(getMapTileAt(i, j).hasEnemyHere() && getMapTileAt(i, j).getEnemy().isAlive() && getMapTileAt(i, j).getEnemy().getMonsterType() == "Necromancer") {
 					tiles.add(getMapTileAt(i, j));
 				}
@@ -257,5 +257,19 @@ public class Map {
 		}
 		return tiles;
 		
+	}
+	
+	public void generateMap(int nTiles) {
+		System.out.println("Generate map");
+		ArrayList<MapTile> availableTiles = new ArrayList<MapTile>();
+		availableTiles.add(new MapTile());
+		int r = 0;
+		System.out.println(r);
+		int t = rn.nextInt(4);
+		System.out.println(t);
+		switch(t) {
+			case 0: //north
+				
+		}
 	}
 }
